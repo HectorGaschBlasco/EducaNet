@@ -1,6 +1,10 @@
 ---
 import Layout from '../layouts/Layout.astro';
 import Card from '../components/Card.astro';
+import { db, Teacher } from "astro:db";
+const teachers = await db.select().from(Teacher);
+console.log("teachers", teachers)
+
 ---
 
 <Layout title="Welcome to Astro.">
