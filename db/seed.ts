@@ -2,12 +2,13 @@ import { db, Teacher, Student_Teacher, Student, Class_Student, Class, Department
 
 // https://astro.build/db/seed
 export default async function seed() {
-	await db.insert(Teacher).values([
-		{ id: "1" , dni: "20955322E", name: "Profesor A",email: "profesora@mail.com", password: "password", departmentId: "1"},
-	])
 	
 	await db.insert(Department).values([
 	{ id: "1" , location: "Computing Science"},
+	])
+
+	await db.insert(Teacher).values([
+		{ id: "1" , dni: "20955322E", name: "Profesor A",email: "profesora@mail.com", password: "password", departmentId: "1"},
 	])
 
 	await db.insert(Student).values([

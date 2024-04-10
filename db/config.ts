@@ -7,6 +7,17 @@ const Department = defineTable({
   }
 })
 
+const Student = defineTable({
+  columns : {
+    id : column.text({ primaryKey : true }),
+    nia : column.text({ unique : true }),
+    dni : column.text({ unique : true }),
+    name : column.text({ unique : true }),
+    email : column.text({ unique : true }),
+    password : column.text(),
+  }
+})
+
 const Teacher = defineTable({
   columns : {
     id : column.text({ primaryKey : true }),
@@ -22,17 +33,6 @@ const Student_Teacher = defineTable ({
   columns : {
     studentId : column.text({ references :  () => Student.columns.id }),
     teacherId :  column.text({ references :  () => Teacher.columns.id}),
-  }
-})
-
-const Student = defineTable({
-  columns : {
-    id : column.text({ primaryKey : true }),
-    nia : column.text({ unique : true }),
-    dni : column.text({ unique : true }),
-    name : column.text({ unique : true }),
-    email : column.text({ unique : true }),
-    password : column.text(),
   }
 })
 
