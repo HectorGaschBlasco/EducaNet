@@ -1,4 +1,4 @@
-import { db, Teacher, Student_Teacher, Student, Class_Student, Class, Department, Subject } from "astro:db";
+// import { db, Teacher, Student_Teacher, Student, Class_Student, Class, Department, Subject } from "astro:db";
 
 // https://astro.build/db/seed
 export default async function seed() {

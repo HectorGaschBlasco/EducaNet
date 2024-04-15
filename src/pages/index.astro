@@ -1,20 +1,69 @@
 ---
 import Layout from '../layouts/Layout.astro';
 import SignIn from '../components/SignIn.astro';
-import { db, Teacher } from "astro:db";
-const teachers = await db.select().from(Teacher);
+import SignUp from '../components/SignUp.astro';
+import { isVaildDni } from  '../utils/isVaildDni';
+import { isValidPassword } from  '../utils/isValidPassword';
+
+import { v4 as uuidv4 } from  'uuid';
+
+import { db, Student } from "astro:db";
+const teachers = await db.select().from(Student);
+console.log(teachers)
+
+
+
+
+// if (Astro.request.method === "POST") {
+//   try {
+// 	const data = await Astro.request.formData();
+// 	const SignUp_uuid = uuidv4();
+// 	const SignUp_name = data.get("SignUp-name");
+// 	const SignUp_email = data.get("SignUp-email");
+// 	const SignUp_nia = data.get("SignUp-nia");
+// 	const SignUp_dni = data.get("SignUp-dni");
+// 	const SignUp_password = data.get("SignUp-password");
+// 	const SignUp_rpassword = data.get("SignUp-rpassword");
+
+// 	if ( typeof SignUp_name === "string" && typeof SignUp_email === "string" && typeof SignUp_nia === "string" && typeof SignUp_dni === "string" && typeof SignUp_password === "string" && typeof SignUp_rpassword === "string" ){
+// 		if (isVaildDni(SignUp_dni) && isValidPassword(SignUp_password, SignUp_rpassword)) {
+// 			await db.insert(Student).values(
+// 				{ id: SignUp_uuid, name: SignUp_name, email: SignUp_email, nia: SignUp_nia, dni: SignUp_dni, password: SignUp_password},
+// 			)
+// 		}
+// 	}
+
+//   } catch (error) {
+//     if (error instanceof Error) {
+//       console.error(error.message);
+//     }
+//   }
+// }
 ---
 
 <Layout title="Welcome to EducaNet.">
-	<main class="@apply w-[800px] max-w-[calc(100%_-_2rem)] text-[white] text-xl leading-[1.6] m-auto p-4;">
+	<main class="w-[800px] max-w-[calc(100%_-_2rem)] text-[white] text-xl leading-[1.6] m-auto p-4;">
 		
 		<h1 class="text-gradient text-7xl font-bold text-center mt-14 mb-24">Welcome to EducaNet</h1>
 		
-		<SignIn/>
+		<!-- <SignIn/> -->
+		<SignUp/>
+
 	</main>
 </Layout>
 
 <style>
+	:root {
+		--accent: 136, 58, 234;
+		--accent-light: 224, 204, 250;
+		--accent-dark: 49, 10, 101;
+		--accent-gradient: linear-gradient(
+			45deg,
+			rgb(var(--accent)),
+			rgb(var(--accent-light)) 20%,
+			white 60%
+		);
+	}
 	.text-gradient {
 		background-image: var(--accent-gradient);
 		-webkit-background-clip: text;

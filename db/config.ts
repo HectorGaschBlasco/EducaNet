@@ -10,10 +10,10 @@ const Department = defineTable({
 const Student = defineTable({
   columns : {
     id : column.text({ primaryKey : true }),
-    nia : column.text({ unique : true }),
-    dni : column.text({ unique : true }),
     name : column.text({ unique : true }),
     email : column.text({ unique : true }),
+    nia : column.text({ unique : true }),
+    dni : column.text({ unique : true }),
     password : column.text(),
   }
 })
