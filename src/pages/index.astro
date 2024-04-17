@@ -2,43 +2,46 @@
 import Layout from '../layouts/Layout.astro';
 import SignIn from '../components/SignIn.astro';
 import SignUp from '../components/SignUp.astro';
+
 import { isVaildDni } from  '../utils/isVaildDni';
 import { isValidPassword } from  '../utils/isValidPassword';
+import { hashPassword } from  '../utils/hashPassword';
+// import { getAllStudents } from  '../utils/getAllStudents';
 
 import { v4 as uuidv4 } from  'uuid';
-
 import { db, Student } from "astro:db";
-const teachers = await db.select().from(Student);
-console.log(teachers)
+
+
+// console.log(getAllStudents())
 
 
 
+if (Astro.request.method === "POST") {
+  try {
+	const data = await Astro.request.formData();
+	const SignUp_uuid = uuidv4();
+	const SignUp_name = data.get("SignUp-name");
+	const SignUp_email = data.get("SignUp-email");
+	const SignUp_nia = data.get("SignUp-nia");
+	const SignUp_dni = data.get("SignUp-dni");
+	const SignUp_password = data.get("SignUp-password");
+	const SignUp_rpassword = data.get("SignUp-rpassword");
 
-// if (Astro.request.method === "POST") {
-//   try {
-// 	const data = await Astro.request.formData();
-// 	const SignUp_uuid = uuidv4();
-// 	const SignUp_name = data.get("SignUp-name");
-// 	const SignUp_email = data.get("SignUp-email");
-// 	const SignUp_nia = data.get("SignUp-nia");
-// 	const SignUp_dni = data.get("SignUp-dni");
-// 	const SignUp_password = data.get("SignUp-password");
-// 	const SignUp_rpassword = data.get("SignUp-rpassword");
-
-// 	if ( typeof SignUp_name === "string" && typeof SignUp_email === "string" && typeof SignUp_nia === "string" && typeof SignUp_dni === "string" && typeof SignUp_password === "string" && typeof SignUp_rpassword === "string" ){
-// 		if (isVaildDni(SignUp_dni) && isValidPassword(SignUp_password, SignUp_rpassword)) {
-// 			await db.insert(Student).values(
-// 				{ id: SignUp_uuid, name: SignUp_name, email: SignUp_email, nia: SignUp_nia, dni: SignUp_dni, password: SignUp_password},
-// 			)
-// 		}
-// 	}
-
-//   } catch (error) {
-//     if (error instanceof Error) {
-//       console.error(error.message);
-//     }
-//   }
-// }
+	if ( typeof SignUp_name === "string" && typeof SignUp_email === "string" && typeof SignUp_nia === "string" && typeof SignUp_dni === "string" && typeof SignUp_password === "string" && typeof SignUp_rpassword === "string" ){
+		if (isVaildDni(SignUp_dni) && isValidPassword(SignUp_password, SignUp_rpassword)) {
+			const SignUp_hashed_password = await hashPassword( SignUp_password )
+			await db.insert(Student).values(
+				{ id: SignUp_uuid, name: SignUp_name, email: SignUp_email, nia: SignUp_nia, dni: SignUp_dni, password: SignUp_hashed_password},
+       		 )
+    	}
+	}
+ 		
+  } catch (error) {
+    if (error instanceof Error) {
+      console.error(error.message);
+    }
+  }
+}
 ---
 
 <Layout title="Welcome to EducaNet.">
