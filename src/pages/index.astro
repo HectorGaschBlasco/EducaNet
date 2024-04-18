@@ -6,35 +6,54 @@ import SignUp from '../components/SignUp.astro';
 import { isVaildDni } from  '../utils/isVaildDni';
 import { isValidPassword } from  '../utils/isValidPassword';
 import { hashPassword } from  '../utils/hashPassword';
-// import { getAllStudents } from  '../utils/getAllStudents';
+import { checkEmail } from  '../utils/checkEmail';
+import { checkPassword } from  '../utils/checkPassword';
+
 
 import { v4 as uuidv4 } from  'uuid';
-import { db, Student } from "astro:db";
-
-
-// console.log(getAllStudents())
+import { db, like, Student } from "astro:db";
 
 
 
-if (Astro.request.method === "POST") {
+
+if ( Astro.request.method === "POST" ) {
   try {
-	const data = await Astro.request.formData();
-	const SignUp_uuid = uuidv4();
-	const SignUp_name = data.get("SignUp-name");
-	const SignUp_email = data.get("SignUp-email");
-	const SignUp_nia = data.get("SignUp-nia");
-	const SignUp_dni = data.get("SignUp-dni");
-	const SignUp_password = data.get("SignUp-password");
-	const SignUp_rpassword = data.get("SignUp-rpassword");
 
-	if ( typeof SignUp_name === "string" && typeof SignUp_email === "string" && typeof SignUp_nia === "string" && typeof SignUp_dni === "string" && typeof SignUp_password === "string" && typeof SignUp_rpassword === "string" ){
-		if (isVaildDni(SignUp_dni) && isValidPassword(SignUp_password, SignUp_rpassword)) {
-			const SignUp_hashed_password = await hashPassword( SignUp_password )
-			await db.insert(Student).values(
-				{ id: SignUp_uuid, name: SignUp_name, email: SignUp_email, nia: SignUp_nia, dni: SignUp_dni, password: SignUp_hashed_password},
-       		 )
-    	}
-	}
+		const data = await Astro.request.formData();
+		if ( data.get( "SignUp-name" ) != null && data.get( "SignUp-email" ) != null && data.get( "SignUp-nia" ) != null && data.get( "SignUp-dni" ) != null && data.get( "SignUp-password" ) != null && data.get( "SignUp-rpassword" ) != null ){
+
+			const SignUp_uuid = uuidv4()
+			const SignUp_name = data.get( "SignUp-name" )
+			const SignUp_email = data.get( "SignUp-email" )
+			const SignUp_nia = data.get( "SignUp-nia" )
+			const SignUp_dni = data.get( "SignUp-dni" )
+			const SignUp_password = data.get( "SignUp-password" )
+			const SignUp_rpassword = data.get( "SignUp-rpassword" )
+
+			if ( typeof SignUp_name === "string" && typeof SignUp_email === "string" && typeof SignUp_nia === "string" && typeof SignUp_dni === "string" && typeof SignUp_password === "string" && typeof SignUp_rpassword === "string" ){
+				if (isVaildDni( SignUp_dni ) && isValidPassword( SignUp_password, SignUp_rpassword )) {
+					const SignUp_hashed_password = await hashPassword( SignUp_password )
+					await db.insert( Student ).values (
+						{ id : SignUp_uuid , name : SignUp_name, email : SignUp_email , nia : SignUp_nia , dni : SignUp_dni , password : SignUp_hashed_password }
+					)
+				}
+			}
+		}
+		if ( data.get("SignIn-email") != null && data.get("SignIn-password") != null){
+			const SignIn_email = data.get('SignIn-email')
+			const SignIn_password = data.get("SignIn-password")
+			
+			if ( typeof SignIn_email === "string" && typeof SignIn_password === "string" ) {
+				
+				const  students = await db.select().from(Student).where(like(Student.email, SignIn_email))
+				if ( students.length > 0 && students.length < 2 ) {
+					
+					if ( await checkEmail ( SignIn_email , students[0].email ) && await checkPassword ( SignIn_password , students[0].password )) {
+						console.log(true) // serach how to change the direction with a transition
+					}
+				}
+			}
+		}
  		
   } catch (error) {
     if (error instanceof Error) {
@@ -49,8 +68,8 @@ if (Astro.request.method === "POST") {
 		
 		<h1 class="text-gradient text-7xl font-bold text-center mt-14 mb-24">Welcome to EducaNet</h1>
 		
-		<!-- <SignIn/> -->
-		<SignUp/>
+		<SignIn/>
+		<!-- <SignUp/> -->
 
 	</main>
 </Layout>
