@@ -1,6 +1,7 @@
 import bcrypt from 'bcrypt'
 
-export async function checkPassword ( providedPassword : string ,  storedPassword: string ) : Promise < boolean > {
+
+export async function checkPassword ( providedPassword : string , storedPassword : string ) : Promise < boolean > {
     
     try {
 

@@ -1,7 +1,6 @@
-import { boolean } from "astro/zod";
 
-export function checkEmail(SignIn_email : string , DB_email : string) : boolean {
-    if(SignIn_email == DB_email)
+export function checkEmail( DB_email : string, SignIn_email : string ) : boolean {
+    if( DB_email == SignIn_email )
         return true
     else
         return false
