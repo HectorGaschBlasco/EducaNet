@@ -11,7 +11,7 @@ import { checkPassword } from  '../utils/checkPassword';
 
 
 import { v4 as uuidv4 } from  'uuid';
-import { db, like, Student } from "astro:db";
+import {  db, like, Student, Class, Class_Student, Subject, Department, Teacher} from "astro:db";
 
 
 
@@ -50,6 +50,30 @@ if ( Astro.request.method === "POST" ) {
 					
 					if ( await checkEmail ( SignIn_email , students[0].email ) && await checkPassword ( SignIn_password , students[0].password )) {
 						console.log(true) // serach how to change the direction with a transition
+						// Astro.redirect("/home")
+						await db.insert(Department).values([
+						{ id: "1" , location: "Computing Science"},
+						])
+
+						await db.insert(Teacher).values([
+							{ id: "1" , dni: "20955322E", name: "Profesor A",email: "profesora@mail.com", password: "password", departmentId: "1"},
+						])
+						await db.insert(Class).values([
+							{ id: "1" , description: "Computing Science", teacherId:"1"},
+							{ id: "2" , description: "Maths", teacherId:"1"},
+							{ id: "3" , description: "Biology", teacherId:"1"},
+
+
+						])
+
+						await db.insert(Subject).values([
+							{ id: "1" , description: "Computing Science", classId: "1"},
+						])
+						await db.insert(Class_Student).values([
+							{ classId: "1" , studentId: students[0].id},
+							{ classId: "2" , studentId: students[0].id},
+							{ classId: "3" , studentId: students[0].id},
+						])
 					}
 				}
 			}
@@ -69,7 +93,7 @@ if ( Astro.request.method === "POST" ) {
 		<h1 class="text-gradient text-7xl font-bold text-center mt-14 mb-24">Welcome to EducaNet</h1>
 		
 		<SignIn/>
-		<!-- <SignUp/> -->
+		<SignUp/>
 
 	</main>
 </Layout>
