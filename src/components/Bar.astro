@@ -1,0 +1,39 @@
+---
+import ButtonItem from "./ButtonItem.astro"
+const { title , items } = await Astro.props
+console.log(items)
+
+---
+<div class="relative flex flex-col bg-clip-border dark:bg-gray-800 h-[calc(100vh-6.25rem)] w-full max-w-[20rem] p-4 border-r-2 border-b-2 border-l-2 border-slate-500 ">
+    <div class="mb-2 p-4">
+      <h5 class="block antialiased tracking-normal font-sans text-xl font-semibold leading-snug text-gradient">{title}</h5>
+    </div>
+
+    <nav class="flex flex-col gap-1 min-w-[240px] p-2 font-sans text-base font-normal text-gray-200">
+		<!-- {items.map((item,index)=>(
+			<ButtonItem description={item.description}/>
+		))} -->
+    </nav>
+  
+  </div>
+
+
+  <style>
+    :root {
+		--accent: 136, 58, 234;
+		--accent-light: 224, 204, 250;
+		--accent-dark: 49, 10, 101;
+		--accent-gradient: linear-gradient(
+			45deg,
+			rgb(var(--accent)),
+			rgb(var(--accent-light)) 25%,
+			white 60%
+		);
+	}
+	.text-gradient {
+		background-image: var(--accent-gradient);
+		-webkit-background-clip: text;
+		-webkit-text-fill-color: transparent;
+		background-size: 85%;
+	}
+  </style>

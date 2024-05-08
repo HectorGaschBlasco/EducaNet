@@ -1,3 +1,5 @@
+import { componentIsHTMLElement } from 'astro/runtime/server/render/dom.js';
+import { date } from 'astro/zod';
 import { defineDb, defineTable, column } from 'astro:db';
 
 const Department = defineTable({
@@ -25,21 +27,24 @@ const Teacher = defineTable({
     name : column.text({ unique : true }),
     email : column.text({ unique : true }),
     password : column.text(),
-    departmentId : column.text({ references : () => Department.columns.id})
+    departmentId : column.text({ references : () => Department.columns.id}),
   }
 })
 
-const Student_Teacher = defineTable ({
+const Chat = defineTable ({
   columns : {
     studentId : column.text({ references :  () => Student.columns.id }),
     teacherId :  column.text({ references :  () => Teacher.columns.id}),
+    date : column.text(),
+    text : column.text(),
+    sender : column.text(),
   }
 })
 
 const Class_Student = defineTable ({
   columns : {
     classId : column.text({ references : () => Class.columns.id }),
-    studentId: column.text({ references : () => Student.columns.id }),
+    studentId : column.text({ references : () => Student.columns.id }),
   }
 })
 
@@ -59,8 +64,23 @@ const Subject = defineTable({
   }
 })
 
+const Theory = defineTable({
+  columns : {
+    subjectId : column.text({ references : () => Subject.columns.id, primaryKey : true }),
+    content : column.text()
+  }
+})
+
+const Exercise = defineTable({
+  columns : {
+    id : column.text({ primaryKey : true }),
+    description : column.text(),
+    subjectId : column.text({ references : () => Subject.columns.id }),
+  }
+})
+
 
 // https://astro.build/db/config
 export default defineDb({
-  tables : { Teacher, Student_Teacher, Student, Class_Student, Class, Department, Subject },
+  tables : { Teacher, Chat, Student, Class_Student, Class, Department, Subject, Theory, Exercise},
 })

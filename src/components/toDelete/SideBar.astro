@@ -1,0 +1,42 @@
+---
+import { eq, db, Student, Class_Student, Class } from "astro:db"
+
+const user_email = Astro.cookies.get("User_email")
+const  classes = await db.select({ id: Class.id, description: Class.description, teacher_id: Class.teacherId }).from(Class).innerJoin(Class_Student, eq(Class.id, Class_Student.classId)).innerJoin(Student,eq(Student.id,Class_Student.studentId)).where(eq(Student.email, user_email.value))
+
+var htmlString = "";
+for (var i =0;i<classes.length;i++){
+   htmlString += '<div role="button" tabindex="0" class="flex items-center w-full p-3 rounded-lg text-start leading-tight transition-all border hover:bg-blue-50 hover:bg-opacity-80 focus:bg-blue-50 focus:bg-opacity-80 active:bg-gray-50 active:bg-opacity-80 hover:text-blue-900 focus:text-blue-900 active:text-blue-900 outline-none" > '+ classes[i].description + '</div>';
+}
+---
+<div class="relative flex flex-col bg-clip-border dark:bg-gray-800 h-[calc(100vh-6.25rem)] w-full max-w-[20rem] p-4 border-r-2 border-b-2 border-l-2 border-slate-500 ">
+    <div class="mb-2 p-4">
+      <h5 class="block antialiased tracking-normal font-sans text-xl font-semibold leading-snug text-gradient">Classes</h5>
+    </div>
+
+    <nav class="flex flex-col gap-1 min-w-[240px] p-2 font-sans text-base font-normal text-gray-200">
+      <Fragment set:html={htmlString} />
+    </nav>
+  
+  </div>
+
+
+  <style>
+    :root {
+		--accent: 136, 58, 234;
+		--accent-light: 224, 204, 250;
+		--accent-dark: 49, 10, 101;
+		--accent-gradient: linear-gradient(
+			45deg,
+			rgb(var(--accent)),
+			rgb(var(--accent-light)) 25%,
+			white 60%
+		);
+	}
+	.text-gradient {
+		background-image: var(--accent-gradient);
+		-webkit-background-clip: text;
+		-webkit-text-fill-color: transparent;
+		background-size: 85%;
+	}
+  </style>
