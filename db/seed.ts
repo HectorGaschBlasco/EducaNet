@@ -24,6 +24,8 @@ export default async function seed() {
 
 	await db.insert(Class).values([
 		{ id: "1" , description: "Computing Science", teacherId:"1"},
+		{ id: "2" , description: "Maths", teacherId:"1"},
+		{ id: "3" , description: "Biology", teacherId:"1"},
 	])
 
 	await db.insert(Subject).values([
@@ -34,6 +36,8 @@ export default async function seed() {
 
 	await db.insert(Class_Student).values([
 		{ classId : "1" , studentId: "1"},
+		{ classId : "2" , studentId: "1"},
+		{ classId : "3" , studentId: "1"},
 	])
 
 	await db.insert(Theory).values([
