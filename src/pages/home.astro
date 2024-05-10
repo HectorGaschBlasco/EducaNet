@@ -6,7 +6,7 @@ import Bar from '../components/Bar.astro';
 import { eq, db, Student, Class_Student, Class } from "astro:db"
 
 const user_email = Astro.cookies.get("User_email")
-const  classes = await db.select({ id: Class.id, description: Class.description, teacher_id: Class.teacherId }).from(Class).innerJoin(Class_Student, eq(Class.id, Class_Student.classId)).innerJoin(Student,eq(Student.id,Class_Student.studentId)).where(eq(Student.email, user_email.value))
+const  classes = await db.select({ id: Class.id, description: Class.description, teacher_id: Class.teacherId }).from(Class).innerJoin(Class_Student, eq(Class.id, Class_Student.classId)).innerJoin(Student,eq(Student.id,Class_Student.studentId))
 // console.log(classes)
 ---
 
@@ -20,7 +20,7 @@ const  classes = await db.select({ id: Class.id, description: Class.description,
 
 	</main> -->
 	<div class="inline-flex gap-5">
-		<Bar title="Classes" item={classes}/>
+		<Bar title="Classes" items={classes}/>
 	</div>
 </Layout>
 

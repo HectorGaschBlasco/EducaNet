@@ -1,6 +1,6 @@
 ---
 import ButtonItem from "./ButtonItem.astro"
-const { title , items } = await Astro.props
+const { title , items } = Astro.props
 console.log(items)
 
 ---
@@ -10,9 +10,9 @@ console.log(items)
     </div>
 
     <nav class="flex flex-col gap-1 min-w-[240px] p-2 font-sans text-base font-normal text-gray-200">
-		<!-- {items.map((item,index)=>(
+		 {items.map((item,index)=>(
 			<ButtonItem description={item.description}/>
-		))} -->
+		))} 
     </nav>
   
   </div>
