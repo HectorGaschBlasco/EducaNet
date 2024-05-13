@@ -2,25 +2,37 @@
 import Layout from '../layouts/Layout.astro';
 import Header from '../components/Header.astro'
 import Bar from '../components/Bar.astro';
-
+import Image from 'astro/components/Image.astro';
 import { eq, db, Student, Class_Student, Class } from "astro:db"
 
+import { POST } from './api/hello.ts'
+
+
+async function  myFunction(): Promise<void>{
+	let response = await POST(Astro)
+	console.log( response.arrayBuffer())
+}
+ myFunction()
+//  const intervalId = setInterval(myFunction, 1000)
+
+if ( Astro.request.method === "POST" ) {
+	console.log(Astro.request.body)
+}
+
 const user_email = Astro.cookies.get("User_email")
-const  classes = await db.select({ id: Class.id, description: Class.description, teacher_id: Class.teacherId }).from(Class).innerJoin(Class_Student, eq(Class.id, Class_Student.classId)).innerJoin(Student,eq(Student.id,Class_Student.studentId)).where(eq(Student.email, user_email.value))
-// console.log(classes)
+const classes = await db.select({ id: Class.id, description: Class.description, teacher_id: Class.teacherId }).from(Class).innerJoin(Class_Student, eq(Class.id, Class_Student.classId)).innerJoin(Student,eq(Student.id,Class_Student.studentId)).where(eq(Student.email, user_email.value))
 ---
 
 <Layout title="Welcome to EducaNet.">
 	<Header/>
-    <!-- <main class="w-[800px] max-w-[calc(100%_-_2rem)] text-[white] text-xl leading-[1.6] m-auto p-4;">
-		
-		<h1 class="text-gradient text-7xl font-bold text-center mt-14 mb-24">Welcome to EducaNet</h1>
+		<!-- <main class="w-[800px] max-w-[calc(100%_-_2rem)] text-[white] text-xl leading-[1.6] m-auto p-4;">
 
-        
+			<h1 class="text-gradient text-7xl font-bold text-center mt-14 mb-24">Welcome to EducaNet</h1>
 
-	</main> -->
+
+
+		</main> -->
 	<div class="inline-flex gap-5">
 		<Bar title="Classes" items={classes}/>
 	</div>
 </Layout>
-

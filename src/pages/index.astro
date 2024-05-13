@@ -50,8 +50,9 @@ if ( Astro.request.method === "POST" ) {
 					
 					if ( await checkEmail ( SignIn_email , students[0].email ) && await checkPassword ( SignIn_password , students[0].password )) {
 						console.log(true) // serach how to change the direction with a transition
-						return Astro.redirect("/home")
 						Astro.cookies.set("User_email", students[0].email)
+						return Astro.redirect("/home")
+						
 					}
 				}
 			}
