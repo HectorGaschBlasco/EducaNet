@@ -2,25 +2,28 @@
 import Layout from '../layouts/Layout.astro';
 import Header from '../components/Header.astro'
 import Bar from '../components/Bar.astro';
-import Image from 'astro/components/Image.astro';
 import { eq, db, Student, Class_Student, Class } from "astro:db"
-
-import { POST } from './api/hello.ts'
-
-
-async function  myFunction(): Promise<void>{
-	let response = await POST(Astro)
-	console.log( response.arrayBuffer())
-}
- myFunction()
-//  const intervalId = setInterval(myFunction, 1000)
-
-if ( Astro.request.method === "POST" ) {
-	console.log(Astro.request.body)
-}
 
 const user_email = Astro.cookies.get("User_email")
 const classes = await db.select({ id: Class.id, description: Class.description, teacher_id: Class.teacherId }).from(Class).innerJoin(Class_Student, eq(Class.id, Class_Student.classId)).innerJoin(Student,eq(Student.id,Class_Student.studentId)).where(eq(Student.email, user_email.value))
+
+
+let response = await fetch('http://localhost:4321/api/hello',{
+	method: 'GET',
+	headers: {'Content-Type':'application/json'},
+})
+
+let data = await response.json()
+
+console.log( data["title"] )
+
+if (data["title"]!= null){
+	// const div = document.getElementById("id");
+
+    //     div.appendChild(<Bar title="Classes" items={classes}/>);
+}
+
+
 ---
 
 <Layout title="Welcome to EducaNet.">
@@ -32,7 +35,15 @@ const classes = await db.select({ id: Class.id, description: Class.description, 
 
 
 		</main> -->
-	<div class="inline-flex gap-5">
+	<div id="div" class="inline-flex gap-5">
 		<Bar title="Classes" items={classes}/>
 	</div>
 </Layout>
+
+<script define:vars={{ data, Bar }}>
+	console.log(Bar)	
+	const div = document.getElementById("id");
+	// div.appendChild(<Bar title="Classes" items={classes}/>);
+//TODO : Hacer un endpoint del tipo GET que devuelve un tipo HTML y en .ts importar import Bar from '../components/Bar.astro';
+
+	</script>
