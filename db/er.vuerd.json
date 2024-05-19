@@ -3,8 +3,8 @@
     "version": "2.2.13",
     "width": 2000,
     "height": 2000,
-    "scrollTop": -58,
-    "scrollLeft": -158,
+    "scrollTop": -241,
+    "scrollLeft": -338,
     "zoomLevel": 1,
     "show": {
       "tableComment": true,
@@ -806,9 +806,9 @@
         ],
         "ui": {
           "active": false,
-          "left": 1496.385,
-          "top": 605.89,
-          "zIndex": 7,
+          "left": 1490.385,
+          "top": 613.89,
+          "zIndex": 10,
           "widthName": 60,
           "widthComment": 60
         },
@@ -891,9 +891,9 @@
         ],
         "ui": {
           "active": false,
-          "left": 1496.385,
-          "top": 149.89,
-          "zIndex": 5,
+          "left": 1490.385,
+          "top": 123.89,
+          "zIndex": 12,
           "widthName": 60,
           "widthComment": 60
         },
@@ -1082,8 +1082,8 @@
           "columnIds": [
             "6e0759dc-5f90-4e6f-afd4-85f4988ffb86"
           ],
-          "x": 1496.385,
-          "y": 660.89,
+          "x": 1490.385,
+          "y": 668.89,
           "direction": "left"
         },
         "constraintName": "fk_subject_to_theory",
@@ -1134,8 +1134,8 @@
           "columnIds": [
             "c3edcaaa-e4f7-46ca-a927-94fdf7ec9b71"
           ],
-          "x": 1496.385,
-          "y": 215.14,
+          "x": 1490.385,
+          "y": 189.14,
           "direction": "left"
         },
         "constraintName": "fk_subject_to_excercise",

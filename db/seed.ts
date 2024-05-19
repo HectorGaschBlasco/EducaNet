@@ -29,7 +29,7 @@ export default async function seed() {
 	])
 
 	await db.insert(Subject).values([
-		{ id: "1" , description: "Computing Science", classId: "1"},
+		{ id: "1" , description: "Compu Science", classId: "1"},
 		{ id: "2" , description: "Programming", classId: "1"},
 		{ id: "3" , description: "Hardware", classId: "1"},
 	])

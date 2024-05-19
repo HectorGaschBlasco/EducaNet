@@ -12,7 +12,7 @@ class="flex items-center w-full p-3 rounded-lg text-center leading-tight transit
     const div = document.getElementById(description);
         div.addEventListener('click', () => {
             const xhr = new XMLHttpRequest();
-            xhr.open("POST", "http://localhost:4321/api/hello");
+            xhr.open("POST", "http://localhost:4321/api/Class_clicked.json");
             xhr.setRequestHeader("Content-Type", "application/json");
             const body = JSON.stringify({
                 title: description,

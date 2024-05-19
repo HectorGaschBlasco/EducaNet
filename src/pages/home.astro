@@ -1,28 +1,50 @@
 ---
 import Layout from '../layouts/Layout.astro';
 import Header from '../components/Header.astro'
-import Bar from '../components/Bar.astro';
-import { eq, db, Student, Class_Student, Class } from "astro:db"
+import ClassBar from '../components/bars/ClassBar.astro';
+import SubjectBar from '../components/bars/SubjectBar.astro';
+import MaterialBar from '../components/bars/MaterialBar.astro';
+import { eq, db, Student, Class_Student, Class, Subject, Exercise } from "astro:db"
+import { and } from 'astro:db';
 
 const user_email = Astro.cookies.get("User_email")
 const classes = await db.select({ id: Class.id, description: Class.description, teacher_id: Class.teacherId }).from(Class).innerJoin(Class_Student, eq(Class.id, Class_Student.classId)).innerJoin(Student,eq(Student.id,Class_Student.studentId)).where(eq(Student.email, user_email.value))
 
 
-let response = await fetch('http://localhost:4321/api/hello',{
+let class_clicked = await fetch('http://localhost:4321/api/Class_clicked.json',{
 	method: 'GET',
 	headers: {'Content-Type':'application/json'},
 })
 
-let data = await response.json()
+let json_class = await class_clicked.json()
 
-console.log( data["title"] )
 
-if (data["title"]!= null){
-	// const div = document.getElementById("id");
+var subjects=[]
 
-    //     div.appendChild(<Bar title="Classes" items={classes}/>);
+if (json_class["title"] != null){
+	subjects = await db.select({id: Subject.id, description: Subject.description, classId: Subject.classId}).from(Subject).innerJoin(Class, eq(Subject.classId,Class.id)).innerJoin(Class_Student, eq(Class.id, Class_Student.classId)).innerJoin(Student,eq(Student.id,Class_Student.studentId)).where(eq(Class.description, json_class["title"]))&&(eq(Student.email, user_email.value))
+	// subjects.map((item,index)=>(console.log(item.description)))
 }
 
+let subject_clicked = await fetch('http://localhost:4321/api/Subject_clicked.json',{
+	method: 'GET',
+	headers: {'Content-Type':'application/json'},
+})
+
+let json_subject = await subject_clicked.json()
+
+
+
+var material=[]
+
+if (json_subject["title"] != null){
+	material = await db.select({id: Exercise.id, description: Exercise.description, subjectId: Exercise.subjectId}).from(Exercise).innerJoin(Subject, eq(Exercise.subjectId, Subject.id)).innerJoin(Class, eq(Subject.classId,Class.id)).innerJoin(Class_Student, eq(Class.id, Class_Student.classId)).innerJoin(Student,eq(Student.id,Class_Student.studentId)).where(eq(Class.description, json_subject["title"]))
+	material.map((item,index)=>(console.log(item.description)))
+}
+
+console.log()
+console.log(material)
+console.log()
 
 ---
 
@@ -36,14 +58,9 @@ if (data["title"]!= null){
 
 		</main> -->
 	<div id="div" class="inline-flex gap-5">
-		<Bar title="Classes" items={classes}/>
+		<ClassBar title="Classes" items={classes}/>
+		<SubjectBar title="Subjects" items={subjects}/>
+		<MaterialBar title="Material" items={material}/>
 	</div>
 </Layout>
 
-<script define:vars={{ data, Bar }}>
-	console.log(Bar)	
-	const div = document.getElementById("id");
-	// div.appendChild(<Bar title="Classes" items={classes}/>);
-//TODO : Hacer un endpoint del tipo GET que devuelve un tipo HTML y en .ts importar import Bar from '../components/Bar.astro';
-
-	</script>

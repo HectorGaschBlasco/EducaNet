@@ -1,5 +1,5 @@
 ---
-import ButtonItem from "./ButtonItem.astro"
+import ButtonClass from "../buttons/ButtonClass.astro"
 const { title , items } =  Astro.props
 // console.log(items)
 
@@ -11,7 +11,7 @@ const { title , items } =  Astro.props
 
     <nav class="flex flex-col gap-1 min-w-[240px] p-2 font-sans text-base font-normal text-gray-200">
 		{items.map((item,index)=>(
-			<ButtonItem description={item.description}/>
+			<ButtonClass description={item.description}/>
 		))}
     </nav>
   
