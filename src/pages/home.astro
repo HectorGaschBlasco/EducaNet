@@ -4,6 +4,7 @@ import Header from '../components/Header.astro'
 import ClassBar from '../components/bars/ClassBar.astro';
 import SubjectBar from '../components/bars/SubjectBar.astro';
 import MaterialBar from '../components/bars/MaterialBar.astro';
+import TheoryBar from '../components/bars/TheoryBar.astro';
 import { eq, db, Student, Class_Student, Class, Subject, Exercise } from "astro:db"
 import { and } from 'astro:db';
 
@@ -22,7 +23,7 @@ let json_class = await class_clicked.json()
 var subjects=[]
 
 if (json_class["title"] != null){
-	subjects = await db.select({id: Subject.id, description: Subject.description, classId: Subject.classId}).from(Subject).innerJoin(Class, eq(Subject.classId,Class.id)).innerJoin(Class_Student, eq(Class.id, Class_Student.classId)).innerJoin(Student,eq(Student.id,Class_Student.studentId)).where(eq(Class.description, json_class["title"]))&&(eq(Student.email, user_email.value))
+	subjects = await db.select({id: Subject.id, description: Subject.description, classId: Subject.classId}).from(Subject).innerJoin(Class, eq(Subject.classId,Class.id)).innerJoin(Class_Student, eq(Class.id, Class_Student.classId)).innerJoin(Student,eq(Student.id,Class_Student.studentId)).where(eq(Class.description, json_class["title"]))
 	// subjects.map((item,index)=>(console.log(item.description)))
 }
 
@@ -38,13 +39,10 @@ let json_subject = await subject_clicked.json()
 var material=[]
 
 if (json_subject["title"] != null){
-	material = await db.select({id: Exercise.id, description: Exercise.description, subjectId: Exercise.subjectId}).from(Exercise).innerJoin(Subject, eq(Exercise.subjectId, Subject.id)).innerJoin(Class, eq(Subject.classId,Class.id)).innerJoin(Class_Student, eq(Class.id, Class_Student.classId)).innerJoin(Student,eq(Student.id,Class_Student.studentId)).where(eq(Class.description, json_subject["title"]))
+	material = await db.select({id: Exercise.id, description: Exercise.description, subjectId: Exercise.subjectId}).from(Exercise).innerJoin(Subject, eq(Exercise.subjectId, Subject.id)).innerJoin(Class, eq(Subject.classId,Class.id)).innerJoin(Class_Student, eq(Class.id, Class_Student.classId)).innerJoin(Student,eq(Student.id,Class_Student.studentId)).where(eq(Subject.description, json_subject["title"]))
 	material.map((item,index)=>(console.log(item.description)))
 }
 
-console.log()
-console.log(material)
-console.log()
 
 ---
 
@@ -61,6 +59,7 @@ console.log()
 		<ClassBar title="Classes" items={classes}/>
 		<SubjectBar title="Subjects" items={subjects}/>
 		<MaterialBar title="Material" items={material}/>
+		<TheoryBar title="Teoria" items={material}/>
 	</div>
 </Layout>
 

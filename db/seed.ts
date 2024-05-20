@@ -45,6 +45,14 @@ export default async function seed() {
 	])
 
 	await db.insert(Exercise).values([
-		{id : "1", description : "Mondongo2", subjectId : "1"}
+		{id : "1", description : "Exercise 1", subjectId : "1"},
+		{id : "2", description : "Exercise 2", subjectId : "1"},
+		{id : "3", description : "Exercise 3", subjectId : "1"},
+		{id : "4", description : "Exercise 1", subjectId : "2"},
+		{id : "5", description : "Exercise 2", subjectId : "2"},
+		{id : "6", description : "Exercise 3", subjectId : "2"},
+		{id : "7", description : "Exercise 1", subjectId : "3"},
+		{id : "8", description : "Exercise 2", subjectId : "3"},
+		{id : "9", description : "Exercise 3", subjectId : "3"},
 	])
 }
