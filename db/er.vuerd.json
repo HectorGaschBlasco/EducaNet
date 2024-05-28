@@ -3,9 +3,9 @@
     "version": "2.2.13",
     "width": 2000,
     "height": 2000,
-    "scrollTop": -174.29629999999997,
-    "scrollLeft": -692.0144,
-    "zoomLevel": 0.8,
+    "scrollTop": -556.5926,
+    "scrollLeft": -301.01169999999985,
+    "zoomLevel": 0.9,
     "show": {
       "tableComment": true,
       "columnComment": true,
@@ -167,7 +167,7 @@
           "active": false,
           "left": 195.9998,
           "top": 229.5554,
-          "zIndex": 2,
+          "zIndex": 1,
           "widthName": 60,
           "widthComment": 60
         },
@@ -229,7 +229,7 @@
           "active": false,
           "left": 209.9097,
           "top": 36.8451,
-          "zIndex": 3,
+          "zIndex": 2,
           "widthName": 76.38592529296875,
           "widthComment": 60
         },
@@ -381,9 +381,9 @@
         ],
         "ui": {
           "active": false,
-          "left": 208.506,
+          "left": 209.506,
           "top": 708,
-          "zIndex": 1,
+          "zIndex": 29,
           "widthName": 60,
           "widthComment": 60
         },
@@ -468,7 +468,7 @@
           "active": false,
           "left": 810.0249,
           "top": 249.455,
-          "zIndex": 4,
+          "zIndex": 3,
           "widthName": 60,
           "widthComment": 60
         },
@@ -553,7 +553,7 @@
           "active": false,
           "left": 1266.5249,
           "top": 393,
-          "zIndex": 5,
+          "zIndex": 4,
           "widthName": 60,
           "widthComment": 60
         },
@@ -615,7 +615,7 @@
           "active": false,
           "left": 814.2511,
           "top": 748.6119,
-          "zIndex": 6,
+          "zIndex": 5,
           "widthName": 87.00689697265625,
           "widthComment": 60
         },
@@ -746,7 +746,7 @@
           "active": false,
           "left": 209,
           "top": 499,
-          "zIndex": 7,
+          "zIndex": 6,
           "widthName": 60,
           "widthComment": 60
         },
@@ -806,9 +806,9 @@
         ],
         "ui": {
           "active": false,
-          "left": 1490.385,
-          "top": 613.89,
-          "zIndex": 8,
+          "left": 1490.0515,
+          "top": 165.3899,
+          "zIndex": 17,
           "widthName": 60,
           "widthComment": 60
         },
@@ -891,10 +891,95 @@
         ],
         "ui": {
           "active": false,
-          "left": 1490.385,
-          "top": 123.89,
-          "zIndex": 9,
+          "left": 1261.3008,
+          "top": 747.9734,
+          "zIndex": 27,
           "widthName": 60,
+          "widthComment": 60
+        },
+        "visible": true
+      },
+      {
+        "id": "14cd7a99-55d1-465e-9f19-27010dc1cf3e",
+        "name": "Exercise_Student",
+        "comment": "",
+        "columns": [
+          {
+            "id": "c8b4e035-8a4d-4785-a43c-b6ee192a4533",
+            "name": "ExerciseId",
+            "comment": "",
+            "dataType": "TEXT",
+            "default": "",
+            "option": {
+              "autoIncrement": false,
+              "primaryKey": true,
+              "unique": false,
+              "notNull": true
+            },
+            "ui": {
+              "active": false,
+              "pk": false,
+              "fk": false,
+              "pfk": true,
+              "widthName": 63.84092712402344,
+              "widthComment": 60,
+              "widthDataType": 60,
+              "widthDefault": 60
+            }
+          },
+          {
+            "id": "51a745e6-af51-4fab-8460-1bfa12aebf74",
+            "name": "StudentId",
+            "comment": "",
+            "dataType": "TEXT",
+            "default": "",
+            "option": {
+              "autoIncrement": false,
+              "primaryKey": true,
+              "unique": false,
+              "notNull": true
+            },
+            "ui": {
+              "active": false,
+              "pk": false,
+              "fk": false,
+              "pfk": true,
+              "widthName": 62.3199462890625,
+              "widthComment": 60,
+              "widthDataType": 60,
+              "widthDefault": 60
+            }
+          },
+          {
+            "id": "61b482e0-3aac-49b9-ba5f-71d50b0bf745",
+            "name": "Answer",
+            "comment": "",
+            "dataType": "TEXT",
+            "default": "",
+            "option": {
+              "autoIncrement": false,
+              "primaryKey": false,
+              "unique": false,
+              "notNull": true
+            },
+            "ui": {
+              "active": false,
+              "pk": false,
+              "fk": false,
+              "pfk": false,
+              "widthName": 60,
+              "widthComment": 60,
+              "widthDataType": 60,
+              "widthDefault": 60
+            }
+          }
+        ],
+        "ui": {
+          "active": false,
+          "left": 759.9023,
+          "top": 1044.4367,
+          "zIndex": 58,
+          "widthName": 105.12887573242188,
           "widthComment": 60
         },
         "visible": true
@@ -995,8 +1080,8 @@
           "columnIds": [
             "ac83286a-f502-4178-928d-b3362764f462"
           ],
-          "x": 556.4349398193359,
-          "y": 804,
+          "x": 557.4349398193359,
+          "y": 756,
           "direction": "right"
         },
         "end": {
@@ -1021,7 +1106,7 @@
           "columnIds": [
             "ac83286a-f502-4178-928d-b3362764f462"
           ],
-          "x": 382.47046990966794,
+          "x": 383.47046990966794,
           "y": 708,
           "direction": "top"
         },
@@ -1074,16 +1159,16 @@
             "be5fdafa-d434-4a1e-8fac-2e06359ed6b2"
           ],
           "x": 1440.0249,
-          "y": 523.5,
-          "direction": "bottom"
+          "y": 393,
+          "direction": "top"
         },
         "end": {
           "tableId": "bb22fd1f-f7eb-4c78-891b-ab80c018e6c2",
           "columnIds": [
             "6e0759dc-5f90-4e6f-afd4-85f4988ffb86"
           ],
-          "x": 1490.385,
-          "y": 668.89,
+          "x": 1490.0515,
+          "y": 220.3899,
           "direction": "left"
         },
         "constraintName": "fk_subject_to_theory",
@@ -1126,19 +1211,71 @@
             "be5fdafa-d434-4a1e-8fac-2e06359ed6b2"
           ],
           "x": 1440.0249,
-          "y": 393,
-          "direction": "top"
+          "y": 523.5,
+          "direction": "bottom"
         },
         "end": {
           "tableId": "0cb285f9-c45e-498b-94b0-e2ee9deda506",
           "columnIds": [
             "c3edcaaa-e4f7-46ca-a927-94fdf7ec9b71"
           ],
-          "x": 1490.385,
-          "y": 189.14,
-          "direction": "left"
+          "x": 1440.0297505004883,
+          "y": 747.9734,
+          "direction": "top"
         },
         "constraintName": "fk_subject_to_excercise",
+        "visible": true
+      },
+      {
+        "id": "75778017-1ce3-48ff-b360-ad87f0ef0e28",
+        "identification": true,
+        "relationshipType": "OneN",
+        "startRelationshipType": "Dash",
+        "start": {
+          "tableId": "0cb285f9-c45e-498b-94b0-e2ee9deda506",
+          "columnIds": [
+            "eb39ae84-6fe8-45dd-920b-24c4179b9d95"
+          ],
+          "x": 1261.3008,
+          "y": 813.2234,
+          "direction": "left"
+        },
+        "end": {
+          "tableId": "14cd7a99-55d1-465e-9f19-27010dc1cf3e",
+          "columnIds": [
+            "c8b4e035-8a4d-4785-a43c-b6ee192a4533"
+          ],
+          "x": 1110.7432271240234,
+          "y": 1109.6867,
+          "direction": "right"
+        },
+        "constraintName": "fk_excercise_to_exercise_student",
+        "visible": true
+      },
+      {
+        "id": "db6fa045-1662-432f-ae04-5c4f80ff6f65",
+        "identification": true,
+        "relationshipType": "OneN",
+        "startRelationshipType": "Dash",
+        "start": {
+          "tableId": "5201e778-63a3-4ea8-85fc-7219f89bd62b",
+          "columnIds": [
+            "ac83286a-f502-4178-928d-b3362764f462"
+          ],
+          "x": 557.4349398193359,
+          "y": 852,
+          "direction": "right"
+        },
+        "end": {
+          "tableId": "14cd7a99-55d1-465e-9f19-27010dc1cf3e",
+          "columnIds": [
+            "51a745e6-af51-4fab-8460-1bfa12aebf74"
+          ],
+          "x": 759.9023,
+          "y": 1109.6867,
+          "direction": "left"
+        },
+        "constraintName": "fk_student_to_exercise_student",
         "visible": true
       }
     ]

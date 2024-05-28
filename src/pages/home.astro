@@ -1,65 +1,135 @@
 ---
-import Layout from '../layouts/Layout.astro';
-import Header from '../components/Header.astro'
-import ClassBar from '../components/bars/ClassBar.astro';
-import SubjectBar from '../components/bars/SubjectBar.astro';
-import MaterialBar from '../components/bars/MaterialBar.astro';
-import TheoryBar from '../components/bars/TheoryBar.astro';
-import { eq, db, Student, Class_Student, Class, Subject, Exercise } from "astro:db"
-import { and } from 'astro:db';
+import Layout from "../layouts/Layout.astro";
+import Header from "../components/Header.astro";
+import ClassBar from "../components/bars/ClassBar.astro";
+import SubjectBar from "../components/bars/SubjectBar.astro";
+import MaterialBar from "../components/bars/MaterialBar.astro";
+import TheoryBar from "../components/bars/TheoryBar.astro";
+import {
+  eq,
+  db,
+  and,
+  Student,
+  Class_Student,
+  Class,
+  Subject,
+  Exercise,
+  Theory,
+} from "astro:db";
 
-const user_email = Astro.cookies.get("User_email")
-const classes = await db.select({ id: Class.id, description: Class.description, teacher_id: Class.teacherId }).from(Class).innerJoin(Class_Student, eq(Class.id, Class_Student.classId)).innerJoin(Student,eq(Student.id,Class_Student.studentId)).where(eq(Student.email, user_email.value))
+const user_email = Astro.cookies.get("User_email");
+const classes = await db
+  .select({
+    id: Class.id,
+    description: Class.description,
+    teacher_id: Class.teacherId,
+  })
+  .from(Class)
+  .innerJoin(Class_Student, eq(Class.id, Class_Student.classId))
+  .innerJoin(Student, eq(Student.id, Class_Student.studentId))
+  .where(eq(Student.email, user_email.value));
 
+let class_clicked = await fetch(
+  "http://localhost:4321/api/Class_clicked.json",
+  {
+    method: "GET",
+    headers: { "Content-Type": "application/json" },
+  }
+);
 
-let class_clicked = await fetch('http://localhost:4321/api/Class_clicked.json',{
-	method: 'GET',
-	headers: {'Content-Type':'application/json'},
-})
+let json_class = await class_clicked.json();
 
-let json_class = await class_clicked.json()
+var subjects = [];
 
-
-var subjects=[]
-
-if (json_class["title"] != null){
-	subjects = await db.select({id: Subject.id, description: Subject.description, classId: Subject.classId}).from(Subject).innerJoin(Class, eq(Subject.classId,Class.id)).innerJoin(Class_Student, eq(Class.id, Class_Student.classId)).innerJoin(Student,eq(Student.id,Class_Student.studentId)).where(eq(Class.description, json_class["title"]))
-	// subjects.map((item,index)=>(console.log(item.description)))
+if (json_class["title"] != null) {
+  subjects = await db
+    .select({
+      id: Subject.id,
+      description: Subject.description,
+      classId: Subject.classId,
+    })
+    .from(Subject)
+    .innerJoin(Class, eq(Subject.classId, Class.id))
+    .innerJoin(Class_Student, eq(Class.id, Class_Student.classId))
+    .innerJoin(Student, eq(Student.id, Class_Student.studentId))
+    .where(eq(Class.description, json_class["title"]));
 }
 
-let subject_clicked = await fetch('http://localhost:4321/api/Subject_clicked.json',{
-	method: 'GET',
-	headers: {'Content-Type':'application/json'},
-})
+let subject_clicked = await fetch(
+  "http://localhost:4321/api/Subject_clicked.json",
+  {
+    method: "GET",
+    headers: { "Content-Type": "application/json" },
+  }
+);
 
-let json_subject = await subject_clicked.json()
+let json_subject = await subject_clicked.json();
 
+var material = [];
+var theory = [];
 
+if (json_subject["title"] != null) {
+  material = await db
+    .select({
+      id: Exercise.id,
+      description: Exercise.description,
+      subjectId: Exercise.subjectId,
+    })
+    .from(Exercise)
+    .innerJoin(Subject, eq(Exercise.subjectId, Subject.id))
+    .innerJoin(Class, eq(Subject.classId, Class.id))
+    .innerJoin(Class_Student, eq(Class.id, Class_Student.classId))
+    .innerJoin(Student, eq(Student.id, Class_Student.studentId))
+    .where(eq(Subject.description, json_subject["title"]));
 
-var material=[]
-
-if (json_subject["title"] != null){
-	material = await db.select({id: Exercise.id, description: Exercise.description, subjectId: Exercise.subjectId}).from(Exercise).innerJoin(Subject, eq(Exercise.subjectId, Subject.id)).innerJoin(Class, eq(Subject.classId,Class.id)).innerJoin(Class_Student, eq(Class.id, Class_Student.classId)).innerJoin(Student,eq(Student.id,Class_Student.studentId)).where(eq(Subject.description, json_subject["title"]))
-	material.map((item,index)=>(console.log(item.description)))
+  theory = await db
+    .select({ id: Theory.subjectId, description: Theory.content })
+    .from(Theory)
+    .innerJoin(Subject, eq(Theory.subjectId, Subject.id))
+    .innerJoin(Class, eq(Subject.classId, Class.id))
+    .innerJoin(Class_Student, eq(Class.id, Class_Student.classId))
+    .innerJoin(Student, eq(Student.id, Class_Student.studentId))
+    .where(eq(Subject.description, json_subject["title"]));
 }
+// let exersice_cliked = await fetch(
+//   "http://localhost:4321/api/Exercise_clicked.json",
+//   {
+//     method: "GET",
+//     headers: { "Content-Type": "application/json" },
+//   }
+// );
+// let json_exercise = await exersice_cliked.json();
+// let exersice_clicked = [];
 
+// if (json_exercise != null) {
+//   exersice_clicked = await db
+//     .select({
+//       id: Exercise.id,
+//       description: Exercise.description,
+//       subjectId: Exercise.subjectId,
+//     })
+//     .from(Exercise)
+//     .innerJoin(Subject, eq(Exercise.subjectId, Subject.id))
+//     .innerJoin(Class, eq(Subject.classId, Class.id))
+//     .innerJoin(Class_Student, eq(Class.id, Class_Student.classId))
+//     .innerJoin(Student, eq(Student.id, Class_Student.studentId))
+//     .where(
+//       and(
+//       eq(Exercise.description, json_exercise["title"]),
+//       eq(Student.email, user_email.value)
+//       )
+//     );
+// }
 
+// console.log(exersice_clicked);
 ---
 
 <Layout title="Welcome to EducaNet.">
-	<Header/>
-		<!-- <main class="w-[800px] max-w-[calc(100%_-_2rem)] text-[white] text-xl leading-[1.6] m-auto p-4;">
-
-			<h1 class="text-gradient text-7xl font-bold text-center mt-14 mb-24">Welcome to EducaNet</h1>
-
-
-
-		</main> -->
-	<div id="div" class="inline-flex gap-5">
-		<ClassBar title="Classes" items={classes}/>
-		<SubjectBar title="Subjects" items={subjects}/>
-		<MaterialBar title="Material" items={material}/>
-		<TheoryBar title="Teoria" items={material}/>
-	</div>
+  <Header />
+  <div id="div" class="inline-flex gap-5">
+    <ClassBar title="Classes" items={classes} />
+    <SubjectBar title="Subjects" items={subjects} />
+    <MaterialBar title="Material" items={material} />
+    <TheoryBar title="Theory" items={theory} />
+  </div>
 </Layout>
-

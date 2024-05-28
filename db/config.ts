@@ -79,6 +79,14 @@ const Exercise = defineTable({
   }
 })
 
+const Exercise_Student = defineTable({
+  columns : {
+    exerciseId : column.text({ references : () => Exercise.columns.id }),
+    studentId : column.text({ references : () => Student.columns.id }),
+    answer : column.text()
+  }
+})
+
 
 // https://astro.build/db/config
 export default defineDb({
