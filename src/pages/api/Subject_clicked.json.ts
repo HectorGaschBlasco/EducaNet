@@ -8,9 +8,6 @@ export const POST: APIRoute = async ({ request }) => {
     if (request.headers.get("Content-Type") === "application/json") {
       clicked_subject = await request.json();
       const name = clicked_subject.title;
-      console.log()
-      console.log(name)
-      console.log()
       json_subject = JSON.stringify({
         "title": name
       })

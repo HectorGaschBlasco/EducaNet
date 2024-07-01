@@ -26,10 +26,10 @@ const classes = await db
   })
   .from(Class)
   .innerJoin(Class_Student, eq(Class.id, Class_Student.classId))
-  .innerJoin(Student, eq(Student.id, Class_Student.studentId))
-  .where(eq(Student.email, user_email.value));
+  .innerJoin(Student, eq(Student.id, Class_Student.studentId));
+// .where(eq(Student.email, user_email.value));
 
-let class_clicked = await fetch(
+var class_clicked = await fetch(
   "http://localhost:4321/api/Class_clicked.json",
   {
     method: "GET",
@@ -37,9 +37,9 @@ let class_clicked = await fetch(
   }
 );
 
-let json_class = await class_clicked.json();
-
+var json_class = await class_clicked.json();
 var subjects = [];
+var Subject_visibility = false;
 
 if (json_class["title"] != null) {
   subjects = await db
@@ -53,9 +53,10 @@ if (json_class["title"] != null) {
     .innerJoin(Class_Student, eq(Class.id, Class_Student.classId))
     .innerJoin(Student, eq(Student.id, Class_Student.studentId))
     .where(eq(Class.description, json_class["title"]));
+  Subject_visibility = true;
 }
 
-let subject_clicked = await fetch(
+var subject_clicked = await fetch(
   "http://localhost:4321/api/Subject_clicked.json",
   {
     method: "GET",
@@ -63,10 +64,13 @@ let subject_clicked = await fetch(
   }
 );
 
-let json_subject = await subject_clicked.json();
-
+var json_subject = await subject_clicked.json();
+console.log(json_subject);
 var material = [];
+var Material_visibility = true;
+
 var theory = [];
+var Theory_visibility = true;
 
 if (json_subject["title"] != null) {
   material = await db
@@ -91,15 +95,16 @@ if (json_subject["title"] != null) {
     .innerJoin(Student, eq(Student.id, Class_Student.studentId))
     .where(eq(Subject.description, json_subject["title"]));
 }
-// let exersice_cliked = await fetch(
+// var exersice_cliked = await fetch(
 //   "http://localhost:4321/api/Exercise_clicked.json",
 //   {
 //     method: "GET",
 //     headers: { "Content-Type": "application/json" },
 //   }
 // );
-// let json_exercise = await exersice_cliked.json();
-// let exersice_clicked = [];
+// var json_exercise = await exersice_cliked.json();
+// var exersice_clicked = [];
+// console.log(json_exercise);
 
 // if (json_exercise != null) {
 //   exersice_clicked = await db
@@ -115,22 +120,29 @@ if (json_subject["title"] != null) {
 //     .innerJoin(Student, eq(Student.id, Class_Student.studentId))
 //     .where(
 //       and(
-//       eq(Exercise.description, json_exercise["title"]),
-//       eq(Student.email, user_email.value)
+//         eq(Exercise.description, json_exercise["title"]),
+//         eq(Student.email, user_email.value)
 //       )
 //     );
 // }
 
-// console.log(exersice_clicked);
+// console.log(json_exercise);
 ---
 
 <Layout title="Welcome to EducaNet.">
   <Header />
-  <div id="div" class="inline-flex gap-5">
+  <div id="Bars" class="inline-flex gap-5">
     <ClassBar title="Classes" items={classes} />
-    <SubjectBar title="Subjects" items={subjects} />
-    <MaterialBar title="Material" items={material} />
-    <TheoryBar title="Theory" items={theory} />
-    <TheoryBar title="Theory" items={theory} />
+    <SubjectBar
+      title="Subjects"
+      items={subjects}
+      visible={Subject_visibility}
+    />
+    <MaterialBar
+      title="Material"
+      items={material}
+      visible={Material_visibility}
+    />
+    <TheoryBar title="Theory" items={theory} visible={Theory_visibility} />
   </div>
 </Layout>

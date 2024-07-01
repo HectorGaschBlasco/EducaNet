@@ -3,8 +3,8 @@
     "version": "2.2.13",
     "width": 2000,
     "height": 2000,
-    "scrollTop": -556.5926,
-    "scrollLeft": -301.01169999999985,
+    "scrollTop": -162.58320000000003,
+    "scrollLeft": -594.4062999999999,
     "zoomLevel": 0.9,
     "show": {
       "tableComment": true,
@@ -133,7 +133,7 @@
               "pk": false,
               "fk": false,
               "pfk": false,
-              "widthName": 60.92893981933594,
+              "widthName": 60,
               "widthComment": 60,
               "widthDataType": 60,
               "widthDefault": 60
@@ -156,7 +156,7 @@
               "pk": false,
               "fk": true,
               "pfk": false,
-              "widthName": 87.29292297363281,
+              "widthName": 78.603515625,
               "widthComment": 60,
               "widthDataType": 60,
               "widthDefault": 60
@@ -230,7 +230,7 @@
           "left": 209.9097,
           "top": 36.8451,
           "zIndex": 2,
-          "widthName": 76.38592529296875,
+          "widthName": 69.919921875,
           "widthComment": 60
         },
         "visible": true
@@ -372,7 +372,7 @@
               "pk": false,
               "fk": false,
               "pfk": false,
-              "widthName": 60.92893981933594,
+              "widthName": 60,
               "widthComment": 60,
               "widthDataType": 60,
               "widthDefault": 60
@@ -383,7 +383,7 @@
           "active": false,
           "left": 209.506,
           "top": 708,
-          "zIndex": 29,
+          "zIndex": 9,
           "widthName": 60,
           "widthComment": 60
         },
@@ -434,7 +434,7 @@
               "pk": false,
               "fk": false,
               "pfk": false,
-              "widthName": 70.45790100097656,
+              "widthName": 64.8671875,
               "widthComment": 60,
               "widthDataType": 60,
               "widthDefault": 60
@@ -457,7 +457,7 @@
               "pk": false,
               "fk": true,
               "pfk": false,
-              "widthName": 62.31993103027344,
+              "widthName": 60,
               "widthComment": 60,
               "widthDataType": 60,
               "widthDefault": 60
@@ -604,7 +604,7 @@
               "pk": false,
               "fk": false,
               "pfk": true,
-              "widthName": 62.3199462890625,
+              "widthName": 60,
               "widthComment": 60,
               "widthDataType": 60,
               "widthDefault": 60
@@ -616,7 +616,7 @@
           "left": 814.2511,
           "top": 748.6119,
           "zIndex": 5,
-          "widthName": 87.00689697265625,
+          "widthName": 86.55078125,
           "widthComment": 60
         },
         "visible": true
@@ -643,7 +643,7 @@
               "pk": false,
               "fk": false,
               "pfk": true,
-              "widthName": 61.409942626953125,
+              "widthName": 60,
               "widthComment": 60,
               "widthDataType": 60,
               "widthDefault": 60
@@ -666,7 +666,7 @@
               "pk": false,
               "fk": false,
               "pfk": true,
-              "widthName": 60.69493103027344,
+              "widthName": 60,
               "widthComment": 60,
               "widthDataType": 60,
               "widthDefault": 60
@@ -808,7 +808,7 @@
           "active": false,
           "left": 1490.0515,
           "top": 165.3899,
-          "zIndex": 17,
+          "zIndex": 7,
           "widthName": 60,
           "widthComment": 60
         },
@@ -859,7 +859,7 @@
               "pk": false,
               "fk": false,
               "pfk": false,
-              "widthName": 70.45790100097656,
+              "widthName": 64.8671875,
               "widthComment": 60,
               "widthDataType": 60,
               "widthDefault": 60
@@ -893,7 +893,7 @@
           "active": false,
           "left": 1261.3008,
           "top": 747.9734,
-          "zIndex": 27,
+          "zIndex": 8,
           "widthName": 60,
           "widthComment": 60
         },
@@ -921,7 +921,7 @@
               "pk": false,
               "fk": false,
               "pfk": true,
-              "widthName": 63.84092712402344,
+              "widthName": 62.68994140625,
               "widthComment": 60,
               "widthDataType": 60,
               "widthDefault": 60
@@ -944,7 +944,7 @@
               "pk": false,
               "fk": false,
               "pfk": true,
-              "widthName": 62.3199462890625,
+              "widthName": 60,
               "widthComment": 60,
               "widthDataType": 60,
               "widthDefault": 60
@@ -978,8 +978,8 @@
           "active": false,
           "left": 759.9023,
           "top": 1044.4367,
-          "zIndex": 58,
-          "widthName": 105.12887573242188,
+          "zIndex": 10,
+          "widthName": 103.892578125,
           "widthComment": 60
         },
         "visible": true
@@ -1011,7 +1011,7 @@
           "columnIds": [
             "e9469ee9-48d3-4b82-9266-4b45a0a5b3fe"
           ],
-          "x": 383.1462614868164,
+          "x": 378.8015578125,
           "y": 229.5554,
           "direction": "top"
         },
@@ -1028,7 +1028,7 @@
           "columnIds": [
             "dc5a0709-c553-477d-81e6-f60f28eae6e2"
           ],
-          "x": 570.2927229736329,
+          "x": 561.603315625,
           "y": 315.30539999999996,
           "direction": "right"
         },
@@ -1054,7 +1054,7 @@
           "columnIds": [
             "f8461d38-0abc-4445-8149-94a14060605a"
           ],
-          "x": 988.7538505004883,
+          "x": 985.95849375,
           "y": 379.95500000000004,
           "direction": "bottom"
         },
@@ -1063,7 +1063,7 @@
           "columnIds": [
             "271d82cb-c1c1-4dcb-b0b5-7c4a28af17fc"
           ],
-          "x": 988.9110731445312,
+          "x": 987.7511,
           "y": 748.6119,
           "direction": "top"
         },
@@ -1080,7 +1080,7 @@
           "columnIds": [
             "ac83286a-f502-4178-928d-b3362764f462"
           ],
-          "x": 557.4349398193359,
+          "x": 556.506,
           "y": 756,
           "direction": "right"
         },
@@ -1106,7 +1106,7 @@
           "columnIds": [
             "ac83286a-f502-4178-928d-b3362764f462"
           ],
-          "x": 383.47046990966794,
+          "x": 383.006,
           "y": 708,
           "direction": "top"
         },
@@ -1115,7 +1115,7 @@
           "columnIds": [
             "c11f03c1-9bbd-4c11-bc37-93dc786a403e"
           ],
-          "x": 383.20497131347656,
+          "x": 382.5,
           "y": 670.5,
           "direction": "bottom"
         },
@@ -1132,7 +1132,7 @@
           "columnIds": [
             "dc5a0709-c553-477d-81e6-f60f28eae6e2"
           ],
-          "x": 383.1462614868164,
+          "x": 378.8015578125,
           "y": 401.05539999999996,
           "direction": "bottom"
         },
@@ -1141,7 +1141,7 @@
           "columnIds": [
             "168b3629-5cbd-44cd-be09-0656faa1d7a2"
           ],
-          "x": 383.20497131347656,
+          "x": 382.5,
           "y": 499,
           "direction": "top"
         },
@@ -1184,7 +1184,7 @@
           "columnIds": [
             "f8461d38-0abc-4445-8149-94a14060605a"
           ],
-          "x": 1167.4828010009765,
+          "x": 1161.8920875,
           "y": 314.70500000000004,
           "direction": "right"
         },
@@ -1219,7 +1219,7 @@
           "columnIds": [
             "c3edcaaa-e4f7-46ca-a927-94fdf7ec9b71"
           ],
-          "x": 1440.0297505004883,
+          "x": 1437.23439375,
           "y": 747.9734,
           "direction": "top"
         },
@@ -1245,7 +1245,7 @@
           "columnIds": [
             "c8b4e035-8a4d-4785-a43c-b6ee192a4533"
           ],
-          "x": 1110.7432271240234,
+          "x": 1109.59224140625,
           "y": 1109.6867,
           "direction": "right"
         },
@@ -1262,7 +1262,7 @@
           "columnIds": [
             "ac83286a-f502-4178-928d-b3362764f462"
           ],
-          "x": 557.4349398193359,
+          "x": 556.506,
           "y": 852,
           "direction": "right"
         },

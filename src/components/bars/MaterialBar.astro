@@ -1,30 +1,47 @@
 ---
 import ButtonMaterial from "../buttons/ButtonMaterial.astro";
-const { title, items } = Astro.props;
-// console.log(items)
+const { title, items, visible } = Astro.props;
 ---
 
-<div
-  class="relative col-span-2 flex flex-col bg-clip-border dark:bg-gray-800 h-[calc(100vh-6.25rem)] w-full max-w-[20rem] p-4 border-r-2 border-b-2 border-l-2 border-slate-500">
-  <div class="mb-2 p-4">
-    <h5
-      class="block antialiased tracking-normal font-sans text-xl font-semibold leading-snug text-gradient"
+{
+  visible ? (
+    <div
+      class="relative col-span-2 flex flex-col bg-clip-border dark:bg-gray-800 h-[calc(100vh-6.25rem)] w-full max-w-[20rem] p-4 border-r-2 border-b-2 border-l-2 border-slate-500 visible"
+      id="Material"
     >
-      {title}
-    </h5>
-  </div>
+      <div class="mb-2 p-4">
+        <h5 class="block antialiased tracking-normal font-sans text-xl font-semibold leading-snug text-gradient">
+          {title}
+        </h5>
+      </div>
 
-  <nav
-    class="flex flex-col gap-1 min-w-[240px] p-2 font-sans text-base font-normal text-gray-200"
-  >
-    <ButtonMaterial description="Theory" />
-    {
-      items.map((item, index) => (
-        <ButtonMaterial description={item.description} />
-      ))
-    }
-  </nav>
-</div>
+      <nav class="flex flex-col gap-1 min-w-[240px] p-2 font-sans text-base font-normal text-gray-200">
+        <ButtonMaterial description="Theory" />
+        {items.map((item, index) => (
+          <ButtonMaterial description={item.description} />
+        ))}
+      </nav>
+    </div>
+  ) : (
+    <div
+      class="relative col-span-2 flex flex-col bg-clip-border dark:bg-gray-800 h-[calc(100vh-6.25rem)] w-full max-w-[20rem] p-4 border-r-2 border-b-2 border-l-2 border-slate-500 invisible"
+      id="Material"
+    >
+      <div class="mb-2 p-4">
+        <h5 class="block antialiased tracking-normal font-sans text-xl font-semibold leading-snug text-gradient">
+          {title}
+        </h5>
+      </div>
+
+      <nav class="flex flex-col gap-1 min-w-[240px] p-2 font-sans text-base font-normal text-gray-200">
+        <ButtonMaterial description="Theory" />
+        {items.map((item, index) => (
+          <ButtonMaterial description={item.description} />
+        ))}
+      </nav>
+    </div>
+  )
+}
 
 <style>
   :root {
