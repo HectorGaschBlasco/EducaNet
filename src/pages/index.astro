@@ -1,8 +1,11 @@
 ---
 import Layout from "../layouts/Layout.astro";
-import SignIn from "../components/SignIn.astro";
-import SignUp from "../components/SignUp.astro";
-import StudentForm from "../components/StudentForm.astro";
+import Student_SignIn from "../components/StudentSignIn.astro";
+import Student_SignUp from "../components/StudentSignUp.astro";
+import Student_Form from "../components/StudentForm.astro";
+import Teacher_Form from "../components/TeacherForm.astro";
+import Teacher_SignIn from "../components/TeacherSignIn.astro";
+import Teacher_SignUp from "../components/TeacherSignUp.astro";
 
 import { isVaildDni } from "../utils/isVaildDni";
 import { isValidPassword } from "../utils/isValidPassword";
@@ -11,81 +14,74 @@ import { checkEmail } from "../utils/checkEmail";
 import { checkPassword } from "../utils/checkPassword";
 
 import { v4 as uuidv4 } from "uuid";
-import {
-  db,
-  like,
-  Student,
-  Class,
-  Class_Student,
-  Subject,
-  Department,
-  Teacher,
-} from "astro:db";
+import { db, like, Student, Teacher } from "astro:db";
 
 if (Astro.request.method === "POST") {
   try {
     const data = await Astro.request.formData();
     if (
-      data.get("SignUp-name") != null &&
-      data.get("SignUp-email") != null &&
-      data.get("SignUp-nia") != null &&
-      data.get("SignUp-dni") != null &&
-      data.get("SignUp-password") != null &&
-      data.get("SignUp-rpassword") != null
+      data.get("Student-SignUp-name") != null &&
+      data.get("Student-SignUp-email") != null &&
+      data.get("Student-SignUp-nia") != null &&
+      data.get("Student-SignUp-dni") != null &&
+      data.get("Student-SignUp-password") != null &&
+      data.get("Student-SignUp-rpassword") != null
     ) {
-      const SignUp_uuid = uuidv4();
-      const SignUp_name = data.get("SignUp-name");
-      const SignUp_email = data.get("SignUp-email");
-      const SignUp_nia = data.get("SignUp-nia");
-      const SignUp_dni = data.get("SignUp-dni");
-      const SignUp_password = data.get("SignUp-password");
-      const SignUp_rpassword = data.get("SignUp-rpassword");
+      const Student_SignUp_uuid = uuidv4();
+      const Student_SignUp_name = data.get("Student-SignUp-name");
+      const Student_SignUp_email = data.get("Student-SignUp-email");
+      const Student_SignUp_nia = data.get("Student-SignUp-nia");
+      const Student_SignUp_dni = data.get("Student-SignUp-dni");
+      const Student_SignUp_password = data.get("Student-SignUp-password");
+      const Student_SignUp_rpassword = data.get("Student-SignUp-rpassword");
 
       if (
-        typeof SignUp_name === "string" &&
-        typeof SignUp_email === "string" &&
-        typeof SignUp_nia === "string" &&
-        typeof SignUp_dni === "string" &&
-        typeof SignUp_password === "string" &&
-        typeof SignUp_rpassword === "string"
+        typeof Student_SignUp_name === "string" &&
+        typeof Student_SignUp_email === "string" &&
+        typeof Student_SignUp_nia === "string" &&
+        typeof Student_SignUp_dni === "string" &&
+        typeof Student_SignUp_password === "string" &&
+        typeof Student_SignUp_rpassword === "string"
       ) {
         if (
-          isVaildDni(SignUp_dni) &&
-          isValidPassword(SignUp_password, SignUp_rpassword)
+          isVaildDni(Student_SignUp_dni) &&
+          isValidPassword(Student_SignUp_password, Student_SignUp_rpassword)
         ) {
-          const SignUp_hashed_password = await hashPassword(SignUp_password);
+          const SignUp_hashed_password = await hashPassword(
+            Student_SignUp_password
+          );
           await db.insert(Student).values({
-            id: SignUp_uuid,
-            name: SignUp_name,
-            email: SignUp_email,
-            nia: SignUp_nia,
-            dni: SignUp_dni,
+            id: Student_SignUp_uuid,
+            name: Student_SignUp_name,
+            email: Student_SignUp_email,
+            nia: Student_SignUp_nia,
+            dni: Student_SignUp_dni,
             password: SignUp_hashed_password,
           });
         }
       }
     }
     if (
-      data.get("SignIn-email") != null &&
-      data.get("SignIn-password") != null
+      data.get("Student-SignIn-email") != null &&
+      data.get("Student-SignIn-password") != null
     ) {
-      const SignIn_email = data.get("SignIn-email");
-      const SignIn_password = data.get("SignIn-password");
+      const Student_SignIn_email = data.get("Student-SignIn-email");
+      const Student_SignIn_password = data.get("Student-SignIn-password");
 
       if (
-        typeof SignIn_email === "string" &&
-        typeof SignIn_password === "string"
+        typeof Student_SignIn_email === "string" &&
+        typeof Student_SignIn_password === "string"
       ) {
         const students = await db
           .select()
           .from(Student)
-          .where(like(Student.email, SignIn_email));
+          .where(like(Student.email, Student_SignIn_email));
         if (students.length > 0 && students.length < 2) {
           if (
-            (await checkEmail(SignIn_email, students[0].email)) &&
-            (await checkPassword(SignIn_password, students[0].password))
+            (await checkEmail(Student_SignIn_email, students[0].email)) &&
+            (await checkPassword(Student_SignIn_password, students[0].password))
           ) {
-            Astro.cookies.set("User_email", students[0].email);
+            Astro.cookies.set("Student_email", students[0].email);
             return Astro.redirect("/home");
           }
         }
@@ -100,24 +96,27 @@ if (Astro.request.method === "POST") {
 ---
 
 <Layout title="Welcome to EducaNet.">
-  <main
+  <header
     class="w-[800px] max-w-[calc(100%_-_2rem)] text-[white] text-xl leading-[1.6] m-auto p-4;"
   >
     <h1 class="text-gradient text-7xl font-bold text-center mt-14 mb-24">
       Welcome to EducaNet
     </h1>
-  </main>
+  </header>
   <main
     class="flex w-[1000px] max-w-[calc(100%_-_2rem)] text-[white] text-xl items-center leading-[1.6] m-auto p-4;"
+    id="main"
   >
-    <StudentForm />
-    <StudentForm />
+    <Teacher_Form />
+    <Student_Form />
   </main>
   <main
     class="w-[800px] max-w-[calc(100%_-_2rem)] text-[white] text-xl leading-[1.6] m-auto p-4;"
   >
-    <SignIn />
-    <SignUp />
+    <Student_SignIn />
+    <Student_SignUp />
+    <Teacher_SignIn />
+    <Teacher_SignUp />
   </main>
 </Layout>
 

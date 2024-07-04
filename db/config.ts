@@ -21,9 +21,9 @@ const Student = defineTable({
 const Teacher = defineTable({
   columns : {
     id : column.text({ primaryKey : true }),
-    dni : column.text({ unique : true }),
     name : column.text({ unique : true }),
     email : column.text({ unique : true }),
+    dni : column.text({ unique : true }),
     password : column.text(),
     departmentId : column.text({ references : () => Department.columns.id}),
   }

@@ -3,8 +3,8 @@
 ---
 
 <div
-  class="flex items-center min-h-full min-w-fit dark:bg-gray-800 rounded-lg px-16 ml-auto border-2 border-slate-500"
-  id="Student_Form"
+  class="flex items-center min-h-full min-w-fit dark:bg-gray-800 rounded-lg px-16 mr-auto border-2 border-slate-500"
+  id="Teacher_Form"
 >
   <div class="container mx-auto">
     <div class="max-w-md mx-auto my-10">
@@ -12,10 +12,10 @@
         <h1
           class="my-3 text-3xl font-semibold text-gray-700 dark:text-gray-200"
         >
-          Students
+          Teachers
         </h1>
         <p class="text-gray-500 dark:text-gray-400">
-          Form to login as a students
+          Form to login as a teacher
         </p>
       </div>
 
@@ -23,8 +23,8 @@
         <div class="mb-6">
           <button
             type="button"
+            id="Teacher-SignIn-btn"
             class="w-full px-3 py-4 text-white bg-indigo-500 rounded-md focus:bg-indigo-600 focus:outline-none"
-            id="Student-SignIn-btn"
           >
             Sign in
           </button>
@@ -32,8 +32,8 @@
         <div class="mb-6">
           <button
             type="button"
+            id="Teacher-SignUp-btn"
             class="w-full px-3 py-4 text-white bg-indigo-500 rounded-md focus:bg-indigo-600 focus:outline-none"
-            id="Student-SignUp-btn"
           >
             Sign up
           </button>
@@ -44,19 +44,18 @@
 </div>
 
 <script>
-  const StudentSignInBtn = document.getElementById("Student-SignIn-btn");
-  const StudentSignUpBtn = document.getElementById("Student-SignUp-btn");
+  const TeacherSignInBtn = document.getElementById("Teacher-SignIn-btn");
+  const TeacherSignUpBtn = document.getElementById("Teacher-SignUp-btn");
   const Main = document.getElementById("main");
-  const Student_SignIn = document.getElementById("Student_SignIn");
-  const Student_SignUp = document.getElementById("Student_SignUp");
+  const Teacher_SignIn = document.getElementById("Teacher_SignIn");
+  const Teacher_SignUp = document.getElementById("Teacher_SignUp");
 
-  StudentSignInBtn.addEventListener("click", () => {
+  TeacherSignInBtn.addEventListener("click", () => {
     Main.style.display = "none";
-    Student_SignIn.style.display = "flex";
-
+    Teacher_SignIn.style.display = "flex";
   });
-  StudentSignUpBtn.addEventListener("click", () => {
+  TeacherSignUpBtn.addEventListener("click", () => {
     Main.style.display = "none";
-    Student_SignUp.style.display = "flex";
-  });
+    Teacher_SignUp.style.display = "flex";
+    });
 </script>
