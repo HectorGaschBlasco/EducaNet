@@ -1,11 +1,11 @@
-import bcrypt from 'bcrypt'
+import { compare } from "bcrypt-ts";
 
 
 export async function checkPassword ( providedPassword : string , storedPassword : string ) : Promise < boolean > {
     
     try {
 
-        return await bcrypt.compare(providedPassword, storedPassword);
+        return await compare(providedPassword, storedPassword);
 
     } catch( e ) {
 
