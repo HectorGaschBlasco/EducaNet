@@ -39,6 +39,8 @@ var class_clicked = await fetch(
 
 var json_class = await class_clicked.json();
 var subjects = [];
+var material = [];
+var theory = [];
 var Subject_visibility = false;
 var Material_visibility = false;
 var Theory_visibility = false;
@@ -61,61 +63,66 @@ if (json_class["title"] != null) {
       )
     );
   Subject_visibility = true;
-  if (Material_visibility) {
-    Material_visibility = false;
-    Theory_visibility = false;
-  }
-}
 
-var subject_clicked = await fetch(
-  "http://localhost:4321/api/Subject_clicked.json",
-  {
-    method: "GET",
+  var subject_clicked = await fetch(
+    "http://localhost:4321/api/Subject_clicked.json",
+    {
+      method: "GET",
+      headers: { "Content-Type": "application/json" },
+    }
+  );
+  
+  await fetch(
+    "http://localhost:4321/api/Subject_clicked.json",
+    {
+    method: "POST",
     headers: { "Content-Type": "application/json" },
-  }
-);
-
-var json_subject = await subject_clicked.json();
-var material = [];
-
-var theory = [];
-
-if (json_subject["title"] != null) {
-  material = await db
-    .select({
-      id: Exercise.id,
-      description: Exercise.description,
-      subjectId: Exercise.subjectId,
+    body : JSON.stringify({
+      title: null
     })
-    .from(Exercise)
-    .innerJoin(Subject, eq(Exercise.subjectId, Subject.id))
-    .innerJoin(Class, eq(Subject.classId, Class.id))
-    .innerJoin(Class_Student, eq(Class.id, Class_Student.classId))
-    .innerJoin(Student, eq(Student.id, Class_Student.studentId))
-    .where(
-      and(
-        eq(Subject.description, json_subject["title"]),
-        eq(Student.email, student_email.value)
-      )
-    );
+  });
 
-  theory = await db
-    .select({ id: Theory.subjectId, description: Theory.content })
-    .from(Theory)
-    .innerJoin(Subject, eq(Theory.subjectId, Subject.id))
-    .innerJoin(Class, eq(Subject.classId, Class.id))
-    .innerJoin(Class_Student, eq(Class.id, Class_Student.classId))
-    .innerJoin(Student, eq(Student.id, Class_Student.studentId))
-    .where(
-      and(
-        eq(Subject.description, json_subject["title"]),
-        eq(Student.email, student_email.value)
-      )
-    );
+  var json_subject = await subject_clicked.json();
+  console.log(json_subject);
 
-  Material_visibility = true;
-  Theory_visibility = true;
+  if (json_subject["title"] != null) {
+    material = await db
+      .select({
+        id: Exercise.id,
+        description: Exercise.description,
+        subjectId: Exercise.subjectId,
+      })
+      .from(Exercise)
+      .innerJoin(Subject, eq(Exercise.subjectId, Subject.id))
+      .innerJoin(Class, eq(Subject.classId, Class.id))
+      .innerJoin(Class_Student, eq(Class.id, Class_Student.classId))
+      .innerJoin(Student, eq(Student.id, Class_Student.studentId))
+      .where(
+        and(
+          eq(Subject.description, json_subject["title"]),
+          eq(Student.email, student_email.value)
+        )
+      );
+
+    theory = await db
+      .select({ id: Theory.subjectId, description: Theory.content })
+      .from(Theory)
+      .innerJoin(Subject, eq(Theory.subjectId, Subject.id))
+      .innerJoin(Class, eq(Subject.classId, Class.id))
+      .innerJoin(Class_Student, eq(Class.id, Class_Student.classId))
+      .innerJoin(Student, eq(Student.id, Class_Student.studentId))
+      .where(
+        and(
+          eq(Subject.description, json_subject["title"]),
+          eq(Student.email, student_email.value)
+        )
+      );
+
+    Material_visibility = true;
+    Theory_visibility = true;
+  }
 }
+
 // var exersice_cliked = await fetch(
 //   "http://localhost:4321/api/Exercise_clicked.json",
 //   {

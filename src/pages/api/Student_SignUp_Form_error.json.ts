@@ -1,17 +1,16 @@
 import type { APIRoute } from "astro";
 
-var clicked_material = null
-var json_material = JSON.stringify({})
+var err = null
+var location = JSON.stringify({})
 
 export const POST: APIRoute = async ({ request }) => {
   
     if (request.headers.get("Content-Type") === "application/json") {
-      clicked_material = await request.json();
-      const name = clicked_material.title;
-      json_material = JSON.stringify({
-        "title": name
-      })
-      return new Response(null,{ status: 200 } )
+        err = await request.json()
+        location = JSON.stringify({
+          "location": err.location
+        })
+        return new Response(null, { status: 200 })
     } 
   return new Response(null, { status: 400 })
 }
@@ -20,7 +19,8 @@ export const POST: APIRoute = async ({ request }) => {
 export const GET: APIRoute = async ({ request }) => {
   
   if (request.headers.get("Content-Type") === "application/json") {
-    return new Response(json_material,{ status: 200 })
+    return new Response(location,{ status: 200 })
   }
 return new Response(null, { status: 400 })
 }
+  

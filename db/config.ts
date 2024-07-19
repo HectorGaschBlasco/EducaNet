@@ -88,5 +88,5 @@ const Exercise_Student = defineTable({
 
 // https://astro.build/db/config
 export default defineDb({
-  tables : { Teacher, Chat, Student, Class_Student, Class, Department, Subject, Theory, Exercise},
+  tables : { Teacher, Chat, Student, Class_Student, Class, Department, Subject, Theory, Exercise, Exercise_Student},
 })

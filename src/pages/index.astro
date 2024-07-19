@@ -50,14 +50,96 @@ if (Astro.request.method === "POST") {
           const SignUp_hashed_password = await hashPassword(
             Student_SignUp_password
           );
-          await db.insert(Student).values({
-            id: Student_SignUp_uuid,
-            name: Student_SignUp_name,
-            email: Student_SignUp_email,
-            nia: Student_SignUp_nia,
-            dni: Student_SignUp_dni,
-            password: SignUp_hashed_password,
-          });
+          const students_like_name = await db
+            .select({
+              name: Student.name,
+            })
+            .from(Student)
+            .where(like(Student.name, Student_SignUp_name));
+
+          const students_like_email = await db
+            .select({
+              email: Student.email,
+            })
+            .from(Student)
+            .where(like(Student.email, Student_SignUp_email));
+
+          const students_like_nia = await db
+            .select({
+              nia: Student.nia,
+            })
+            .from(Student)
+            .where(like(Student.nia, Student_SignUp_nia));
+
+          const students_like_dni = await db
+            .select({
+              dni: Student.dni,
+            })
+            .from(Student)
+            .where(like(Student.dni, Student_SignUp_dni));
+
+          console.log(students_like_name[0]);
+
+          if (students_like_name[0] == null) {
+            if (students_like_email[0] == null) {
+              if (students_like_nia[0] == null) {
+                if (students_like_dni[0] == null) {
+                  await db.insert(Student).values({
+                    id: Student_SignUp_uuid,
+                    name: Student_SignUp_name,
+                    email: Student_SignUp_email,
+                    nia: Student_SignUp_nia,
+                    dni: Student_SignUp_dni,
+                    password: SignUp_hashed_password,
+                  });
+                } else {
+                  await fetch(
+                    "http://localhost:4321/api/Student_SignUp_Form_error.json",
+                    {
+                      method: "POST",
+                      headers: { "Content-Type": "application/json" },
+                      body: JSON.stringify({
+                        location: "DNI",
+                      }),
+                    }
+                  );
+                }
+              } else {
+                await fetch(
+                  "http://localhost:4321/api/Student_SignUp_Form_error.json",
+                  {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({
+                      location: "NIA",
+                    }),
+                  }
+                );
+              }
+            } else {
+              await fetch(
+                "http://localhost:4321/api/Student_SignUp_Form_error.json",
+                {
+                  method: "POST",
+                  headers: { "Content-Type": "application/json" },
+                  body: JSON.stringify({
+                    location: "Email",
+                  }),
+                }
+              );
+            }
+          } else {
+            await fetch(
+              "http://localhost:4321/api/Student_SignUp_Form_error.json",
+              {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                  location: "Name",
+                }),
+              }
+            );
+          }
         }
       }
     }
@@ -119,6 +201,62 @@ if (Astro.request.method === "POST") {
     <Teacher_SignUp />
   </main>
 </Layout>
+
+<script>
+  import Swal from "sweetalert2";
+
+  if (window.location.reload) {
+    const xhr = new XMLHttpRequest();
+    xhr.open("GET", "http://localhost:4321/api/Student_SignUp_Form_error.json");
+    xhr.setRequestHeader("Content-Type", "application/json");
+    xhr.send();
+    xhr.responseType = "json";
+    xhr.onload = () => {
+      if (xhr.readyState == 4 && xhr.status == 200) {
+        const err = xhr.response;
+        if (err.location != null) {
+          Swal.fire({
+            title: "Error!",
+            text: "There is already a user with that " + err.location,
+            icon: "error",
+            showConfirmButton: false,
+            position: "bottom",
+            toast: true,
+            timer: 5000,
+            timerProgressBar: true,
+            didOpen: (toast) => {
+              toast.onmouseenter = Swal.stopTimer;
+              toast.onmouseleave = Swal.resumeTimer;
+            },
+            color: "white",
+            iconColor: "lightcoral",
+            background: "rgb(99 102 241)",
+          });
+        } else if (err.location == null) {
+          Swal.fire({
+            title: "Successful!",
+            text: "The sign up was completly successful",
+            icon: "success",
+            showConfirmButton: false,
+            position: "bottom",
+            toast: true,
+            timer: 5000,
+            timerProgressBar: true,
+            didOpen: (toast) => {
+              toast.onmouseenter = Swal.stopTimer;
+              toast.onmouseleave = Swal.resumeTimer;
+            },
+            color: "white",
+            iconColor: "springgreen",
+            background: "rgb(99 102 241)",
+          });
+        }
+      } else {
+        console.log(`Error: ${xhr.status}`);
+      }
+    };
+  }
+</script>
 
 <style>
   :root {

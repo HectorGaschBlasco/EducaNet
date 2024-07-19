@@ -15,7 +15,7 @@ export default async function seed() {
 	])
 
 	await db.insert(Student).values([
-		{ id: "1" , nia: "10663305", dni: "20955321E", name: "Profesor A",email: "a@a.a", password: await hashPassword("a")},
+		{ id: "1" , nia: "10663305", dni: "20955322E", name: "a@a.a",email: "a@a.a", password: await hashPassword("a")},
 	])
 
 	await db.insert(Chat).values([
@@ -46,7 +46,7 @@ export default async function seed() {
 	])
 
 	await db.insert(Theory).values([
-		{ subjectId : "1", content : "Do culpa ut ipsum dolore ullamco consectetur qui ad. Culpa ullamco esse anim esse velit. Aliquip tempor mollit pariatur qui magna. Adipisicing ipsum duis amet minim laboris in. Sint incididunt dolore enim veniam minim cupidatat adipisicing occaecat.Commodo culpa ut non duis non ut eu minim aliquip. Magna duis dolore nostrud tempor pariatur. Est elit proident nisi adipisicing aliquip nulla qui in minim quis commodo nulla dolore. Qui adipisicing non ullamco pariatur qui et nisi. Ut occaecat sint dolor minim cupidatat ad do ut velit.Qui ut aliqua nostrud culpa non laborum anim. Lorem consectetur laborum nostrud id adipisicing non esse commodo mollit proident magna laborum incididunt sunt. Cillum officia dolore veniam enim voluptate ullamco proident.Velit dolore occaecat sint ut adipisicing deserunt reprehenderit consectetur minim. Cillum excepteur id laborum esse dolor proident consectetur. Laborum culpa ex mollit dolore enim officia adipisicing commodo adipisicing est pariatur consectetur incididunt. Proident veniam labore nostrud nulla deserunt consequat ex. Laboris nisi reprehenderit enim nisi dolor ullamco id nostrud est et dolore. Velit reprehenderit occaecat eu enim minim reprehenderit do adipisicing proident minim aliquip." },
+		{ subjectId : "1", content : "Do culpa ut ipsum dolore ullamco consectetur qui ad.\n\n\n\n\n Culpa ullamco esse anim esse velit. Aliquip tempor mollit pariatur qui magna. Adipisicing ipsum duis amet minim laboris in. Sint incididunt dolore enim veniam minim cupidatat adipisicing occaecat.Commodo culpa ut non duis non ut eu minim aliquip. Magna duis dolore nostrud tempor pariatur. Est elit proident nisi adipisicing aliquip nulla qui in minim quis commodo nulla dolore. Qui adipisicing non ullamco pariatur qui et nisi. Ut occaecat sint dolor minim cupidatat ad do ut velit.Qui ut aliqua nostrud culpa non laborum anim. Lorem consectetur laborum nostrud id adipisicing non esse commodo mollit proident magna laborum incididunt sunt. Cillum officia dolore veniam enim voluptate ullamco proident.Velit dolore occaecat sint ut adipisicing deserunt reprehenderit consectetur minim. Cillum excepteur id laborum esse dolor proident consectetur. Laborum culpa ex mollit dolore enim officia adipisicing commodo adipisicing est pariatur consectetur incididunt. Proident veniam labore nostrud nulla deserunt consequat ex. Laboris nisi reprehenderit enim nisi dolor ullamco id nostrud est et dolore. Velit reprehenderit occaecat eu enim minim reprehenderit do adipisicing proident minim aliquip." },
 		{ subjectId : "2", content : "Fugiat amet sint velit laboris ex quis qui ipsum voluptate aliqua sint cillum fugiat ad. Officia sit ut esse nisi ad amet incididunt reprehenderit. Adipisicing et Lorem incididunt velit aliquip reprehenderit pariatur fugiat laboris magna. Proident occaecat anim incididunt eu sit occaecat laborum consectetur et." },
 
 	])
