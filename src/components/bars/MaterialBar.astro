@@ -1,5 +1,6 @@
 ---
 import ButtonMaterial from "../buttons/ButtonMaterial.astro";
+import ButtonTheory from "../buttons/ButtonTheory.astro";
 const { title, items, visible } = Astro.props;
 ---
 
@@ -16,7 +17,7 @@ const { title, items, visible } = Astro.props;
       </div>
 
       <nav class="flex flex-col gap-1 min-w-[240px] p-2 font-sans text-base font-normal text-gray-200">
-        <ButtonMaterial description="Theory" />
+        <ButtonTheory description="Theory" />
         {items.map((item, index) => (
           <ButtonMaterial description={item.description} />
         ))}

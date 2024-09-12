@@ -73,6 +73,7 @@ const Exercise = defineTable({
   columns : {
     id : column.text({ primaryKey : true }),
     description : column.text(),
+    content : column.text(),
     subjectId : column.text({ references : () => Subject.columns.id }),
   }
 })

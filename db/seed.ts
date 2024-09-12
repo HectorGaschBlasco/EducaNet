@@ -52,14 +52,14 @@ export default async function seed() {
 	])
 
 	await db.insert(Exercise).values([
-		{id : "1", description : "Exercise 1", subjectId : "1"},
-		{id : "2", description : "Exercise 2", subjectId : "1"},
-		{id : "3", description : "Exercise 3", subjectId : "1"},
-		{id : "4", description : "Exercise 1", subjectId : "2"},
-		{id : "5", description : "Exercise 2", subjectId : "2"},
-		{id : "6", description : "Exercise 3", subjectId : "2"},
-		{id : "7", description : "Exercise 1", subjectId : "3"},
-		{id : "8", description : "Exercise 2", subjectId : "3"},
-		{id : "9", description : "Exercise 3", subjectId : "3"},
+		{id : "1", description : "Exercise 1", content : "Velit enim quis esse fugiat magna pariatur. Culpa consectetur do officia officia. Sint ad anim consequat magna sunt et minim fugiat voluptate.", subjectId : "1"},
+		{id : "2", description : "Exercise 2", content : "Fugiat cillum anim fugiat et ex commodo velit anim ullamco qui non labore velit aliqua.", subjectId : "1"},
+		{id : "3", description : "Exercise 3", content : "Dolore quis laboris cupidatat labore elit nisi in.", subjectId : "1"},
+		{id : "4", description : "Exercise 1", content : "Pariatur nulla ullamco magna nulla voluptate veniam irure qui nostrud non deserunt.", subjectId : "2"},
+		{id : "5", description : "Exercise 2", content : "Duis enim dolor nulla mollit elit do dolor duis sit.", subjectId : "2"},
+		{id : "6", description : "Exercise 3", content : "Officia non enim elit ad aute proident amet velit.", subjectId : "2"},
+		{id : "7", description : "Exercise 1", content : "Proident eu incididunt ad duis nulla culpa.", subjectId : "3"},
+		{id : "8", description : "Exercise 2", content : "Pariatur laboris elit incididunt culpa labore magna est est officia.", subjectId : "3"},
+		{id : "9", description : "Exercise 3", content : "Commodo proident veniam do tempor est sit aute ipsum officia occaecat id.", subjectId : "3"},
 	])
 }

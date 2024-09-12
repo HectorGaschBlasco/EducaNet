@@ -5,6 +5,7 @@ import ClassBar from "../components/bars/ClassBar.astro";
 import SubjectBar from "../components/bars/SubjectBar.astro";
 import MaterialBar from "../components/bars/MaterialBar.astro";
 import TheoryBar from "../components/bars/TheoryBar.astro";
+import ExerciseBar from "../components/bars/ExerciseBar.astro";
 import {
   eq,
   db,
@@ -16,6 +17,22 @@ import {
   Exercise,
   Theory,
 } from "astro:db";
+
+await fetch("http://localhost:4321/api/Student_SignUp_Form_error.json", {
+  method: "POST",
+  headers: { "Content-Type": "application/json" },
+  body: JSON.stringify({
+    location: null,
+  }),
+});
+
+await fetch("http://localhost:4321/api/Student_SignIn_Form_error.json", {
+  method: "POST",
+  headers: { "Content-Type": "application/json" },
+  body: JSON.stringify({
+    location: null,
+  }),
+});
 
 const student_email = Astro.cookies.get("Student_email");
 const classes = await db
@@ -44,6 +61,7 @@ var theory = [];
 var Subject_visibility = false;
 var Material_visibility = false;
 var Theory_visibility = false;
+var Exercise_visibility = false;
 
 if (json_class["title"] != null) {
   subjects = await db
@@ -71,19 +89,8 @@ if (json_class["title"] != null) {
       headers: { "Content-Type": "application/json" },
     }
   );
-  
-  await fetch(
-    "http://localhost:4321/api/Subject_clicked.json",
-    {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body : JSON.stringify({
-      title: null
-    })
-  });
 
   var json_subject = await subject_clicked.json();
-  console.log(json_subject);
 
   if (json_subject["title"] != null) {
     material = await db
@@ -118,59 +125,94 @@ if (json_class["title"] != null) {
         )
       );
 
+    var subject_info = await db
+      .select({
+        id: Subject.id,
+      })
+      .from(Subject)
+      .where(eq(Subject.description, json_subject["title"]));
+
     Material_visibility = true;
     Theory_visibility = true;
+
+    var exersice_cliked = await fetch(
+      "http://localhost:4321/api/Exercise_clicked.json",
+      {
+        method: "GET",
+        headers: { "Content-Type": "application/json" },
+      }
+    );
+    var json_exercise = await exersice_cliked.json();
+    var exersice_clicked = [];
+
+    if (json_exercise["title"] != null && subject_info != null) {
+      exersice_clicked = await db
+        .select({
+          id: Exercise.id,
+          description: Exercise.description,
+          content: Exercise.content,
+          subjectId: Exercise.subjectId,
+        })
+        .from(Exercise)
+        .innerJoin(Subject, eq(Exercise.subjectId, Subject.id))
+        .innerJoin(Class, eq(Subject.classId, Class.id))
+        .innerJoin(Class_Student, eq(Class.id, Class_Student.classId))
+        .innerJoin(Student, eq(Student.id, Class_Student.studentId))
+        .where(
+          and(
+            eq(Exercise.description, json_exercise["title"]),
+            eq(Student.email, student_email.value),
+            eq(Exercise.subjectId, subject_info[0].id)
+          )
+        );
+      Theory_visibility = false;
+      Exercise_visibility = true;
+    }
+    var theory_cliked = await fetch(
+      "http://localhost:4321/api/Theory_clicked.json",
+      {
+        method: "GET",
+        headers: { "Content-Type": "application/json" },
+      }
+    );
+    var json_theory = await theory_cliked.json();
+    console.log(json_theory);
+    if (json_theory["title"] != null) {
+      Theory_visibility = true;
+      Exercise_visibility = false;
+    }
+    await fetch("http://localhost:4321/api/Theory_clicked.json", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        title: null,
+      }),
+    });
   }
 }
-
-// var exersice_cliked = await fetch(
-//   "http://localhost:4321/api/Exercise_clicked.json",
-//   {
-//     method: "GET",
-//     headers: { "Content-Type": "application/json" },
-//   }
-// );
-// var json_exercise = await exersice_cliked.json();
-// var exersice_clicked = [];
-// console.log(json_exercise);
-
-// if (json_exercise != null) {
-//   exersice_clicked = await db
-//     .select({
-//       id: Exercise.id,
-//       description: Exercise.description,
-//       subjectId: Exercise.subjectId,
-//     })
-//     .from(Exercise)
-//     .innerJoin(Subject, eq(Exercise.subjectId, Subject.id))
-//     .innerJoin(Class, eq(Subject.classId, Class.id))
-//     .innerJoin(Class_Student, eq(Class.id, Class_Student.classId))
-//     .innerJoin(Student, eq(Student.id, Class_Student.studentId))
-//     .where(
-//       and(
-//         eq(Exercise.description, json_exercise["title"]),
-//         eq(Student.email, student_email.value)
-//       )
-//     );
-// }
-
-// console.log(json_exercise);
 ---
 
 <Layout title="Welcome to EducaNet.">
-  <Header />
-  <div id="Bars" class="inline-flex gap-5">
-    <ClassBar title="Classes" items={classes} />
-    <SubjectBar
-      title="Subjects"
-      items={subjects}
-      visible={Subject_visibility}
-    />
-    <MaterialBar
-      title="Material"
-      items={material}
-      visible={Material_visibility}
-    />
-    <TheoryBar title="Theory" items={theory} visible={Theory_visibility} />
+  <div>
+    <Header />
+    <div id="Bars" class="inline-flex gap-5">
+      <ClassBar title="Classes" items={classes} />
+      <SubjectBar
+        title="Subjects"
+        items={subjects}
+        visible={Subject_visibility}
+      />
+      <MaterialBar
+        title="Material"
+        items={material}
+        visible={Material_visibility}
+      />
+      <TheoryBar title="Theory" items={theory} visible={Theory_visibility} />
+      <ExerciseBar
+        title={exersice_clicked}
+        items={exersice_clicked}
+        visible={Exercise_visibility}
+      />
+    </div>
   </div>
 </Layout>

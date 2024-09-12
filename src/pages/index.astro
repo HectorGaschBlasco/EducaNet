@@ -16,6 +16,22 @@ import { checkPassword } from "../utils/checkPassword";
 import { v4 as uuidv4 } from "uuid";
 import { db, like, Student, Teacher } from "astro:db";
 
+await fetch("http://localhost:4321/api/Student_SignUp_Form_error.json", {
+  method: "POST",
+  headers: { "Content-Type": "application/json" },
+  body: JSON.stringify({
+    location: null,
+  }),
+});
+
+await fetch("http://localhost:4321/api/Student_SignIn_Form_error.json", {
+  method: "POST",
+  headers: { "Content-Type": "application/json" },
+  body: JSON.stringify({
+    location: null,
+  }),
+});
+
 if (Astro.request.method === "POST") {
   try {
     const data = await Astro.request.formData();
@@ -43,55 +59,75 @@ if (Astro.request.method === "POST") {
         typeof Student_SignUp_password === "string" &&
         typeof Student_SignUp_rpassword === "string"
       ) {
-        if (
-          isVaildDni(Student_SignUp_dni) &&
-          isValidPassword(Student_SignUp_password, Student_SignUp_rpassword)
-        ) {
-          const SignUp_hashed_password = await hashPassword(
-            Student_SignUp_password
-          );
-          const students_like_name = await db
-            .select({
-              name: Student.name,
-            })
-            .from(Student)
-            .where(like(Student.name, Student_SignUp_name));
+        if (isVaildDni(Student_SignUp_dni)) {
+          if (
+            isValidPassword(Student_SignUp_password, Student_SignUp_rpassword)
+          ) {
+            const SignUp_hashed_password = await hashPassword(
+              Student_SignUp_password
+            );
+            const students_like_name = await db
+              .select({
+                name: Student.name,
+              })
+              .from(Student)
+              .where(like(Student.name, Student_SignUp_name));
 
-          const students_like_email = await db
-            .select({
-              email: Student.email,
-            })
-            .from(Student)
-            .where(like(Student.email, Student_SignUp_email));
+            const students_like_email = await db
+              .select({
+                email: Student.email,
+              })
+              .from(Student)
+              .where(like(Student.email, Student_SignUp_email));
 
-          const students_like_nia = await db
-            .select({
-              nia: Student.nia,
-            })
-            .from(Student)
-            .where(like(Student.nia, Student_SignUp_nia));
+            const students_like_nia = await db
+              .select({
+                nia: Student.nia,
+              })
+              .from(Student)
+              .where(like(Student.nia, Student_SignUp_nia));
 
-          const students_like_dni = await db
-            .select({
-              dni: Student.dni,
-            })
-            .from(Student)
-            .where(like(Student.dni, Student_SignUp_dni));
+            const students_like_dni = await db
+              .select({
+                dni: Student.dni,
+              })
+              .from(Student)
+              .where(like(Student.dni, Student_SignUp_dni));
 
-          console.log(students_like_name[0]);
-
-          if (students_like_name[0] == null) {
-            if (students_like_email[0] == null) {
-              if (students_like_nia[0] == null) {
-                if (students_like_dni[0] == null) {
-                  await db.insert(Student).values({
-                    id: Student_SignUp_uuid,
-                    name: Student_SignUp_name,
-                    email: Student_SignUp_email,
-                    nia: Student_SignUp_nia,
-                    dni: Student_SignUp_dni,
-                    password: SignUp_hashed_password,
-                  });
+            if (students_like_name[0] == null) {
+              if (students_like_email[0] == null) {
+                if (students_like_nia[0] == null) {
+                  if (students_like_dni[0] == null) {
+                    await db.insert(Student).values({
+                      id: Student_SignUp_uuid,
+                      name: Student_SignUp_name,
+                      email: Student_SignUp_email,
+                      nia: Student_SignUp_nia,
+                      dni: Student_SignUp_dni,
+                      password: SignUp_hashed_password,
+                    });
+                    await fetch(
+                      "http://localhost:4321/api/Student_SignUp_Form_error.json",
+                      {
+                        method: "POST",
+                        headers: { "Content-Type": "application/json" },
+                        body: JSON.stringify({
+                          location: "NO_ERROR",
+                        }),
+                      }
+                    );
+                  } else {
+                    await fetch(
+                      "http://localhost:4321/api/Student_SignUp_Form_error.json",
+                      {
+                        method: "POST",
+                        headers: { "Content-Type": "application/json" },
+                        body: JSON.stringify({
+                          location: "DNI",
+                        }),
+                      }
+                    );
+                  }
                 } else {
                   await fetch(
                     "http://localhost:4321/api/Student_SignUp_Form_error.json",
@@ -99,7 +135,7 @@ if (Astro.request.method === "POST") {
                       method: "POST",
                       headers: { "Content-Type": "application/json" },
                       body: JSON.stringify({
-                        location: "DNI",
+                        location: "NIA",
                       }),
                     }
                   );
@@ -111,7 +147,7 @@ if (Astro.request.method === "POST") {
                     method: "POST",
                     headers: { "Content-Type": "application/json" },
                     body: JSON.stringify({
-                      location: "NIA",
+                      location: "Email",
                     }),
                   }
                 );
@@ -123,7 +159,7 @@ if (Astro.request.method === "POST") {
                   method: "POST",
                   headers: { "Content-Type": "application/json" },
                   body: JSON.stringify({
-                    location: "Email",
+                    location: "Name",
                   }),
                 }
               );
@@ -135,11 +171,22 @@ if (Astro.request.method === "POST") {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({
-                  location: "Name",
+                  location: "Passwords_not_match",
                 }),
               }
             );
           }
+        } else {
+          await fetch(
+            "http://localhost:4321/api/Student_SignUp_Form_error.json",
+            {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({
+                location: "Not_DNI_correct",
+              }),
+            }
+          );
         }
       }
     }
@@ -159,13 +206,56 @@ if (Astro.request.method === "POST") {
           .from(Student)
           .where(like(Student.email, Student_SignIn_email));
         if (students.length > 0 && students.length < 2) {
-          if (
-            (await checkEmail(Student_SignIn_email, students[0].email)) &&
-            (await checkPassword(Student_SignIn_password, students[0].password))
-          ) {
-            Astro.cookies.set("Student_email", students[0].email);
-            return Astro.redirect("/home");
+          if (await checkEmail(Student_SignIn_email, students[0].email)) {
+            if (
+              await checkPassword(Student_SignIn_password, students[0].password)
+            ) {
+              Astro.cookies.set("Student_email", students[0].email);
+              await fetch(
+                "http://localhost:4321/api/Student_SignIn_Form_error.json",
+                {
+                  method: "POST",
+                  headers: { "Content-Type": "application/json" },
+                  body: JSON.stringify({
+                    location: "NO_ERROR",
+                  }),
+                }
+              );
+            } else {
+              await fetch(
+                "http://localhost:4321/api/Student_SignIn_Form_error.json",
+                {
+                  method: "POST",
+                  headers: { "Content-Type": "application/json" },
+                  body: JSON.stringify({
+                    location: "Password",
+                  }),
+                }
+              );
+            }
+          } else {
+            await fetch(
+              "http://localhost:4321/api/Student_SignIn_Form_error.json",
+              {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                  location: "Email",
+                }),
+              }
+            );
           }
+        } else {
+          await fetch(
+            "http://localhost:4321/api/Student_SignIn_Form_error.json",
+            {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({
+                location: "Email",
+              }),
+            }
+          );
         }
       }
     }
@@ -205,57 +295,171 @@ if (Astro.request.method === "POST") {
 <script>
   import Swal from "sweetalert2";
 
-  if (window.location.reload) {
-    const xhr = new XMLHttpRequest();
-    xhr.open("GET", "http://localhost:4321/api/Student_SignUp_Form_error.json");
-    xhr.setRequestHeader("Content-Type", "application/json");
-    xhr.send();
-    xhr.responseType = "json";
-    xhr.onload = () => {
-      if (xhr.readyState == 4 && xhr.status == 200) {
-        const err = xhr.response;
-        if (err.location != null) {
-          Swal.fire({
-            title: "Error!",
-            text: "There is already a user with that " + err.location,
-            icon: "error",
-            showConfirmButton: false,
-            position: "bottom",
-            toast: true,
-            timer: 5000,
-            timerProgressBar: true,
-            didOpen: (toast) => {
-              toast.onmouseenter = Swal.stopTimer;
-              toast.onmouseleave = Swal.resumeTimer;
-            },
-            color: "white",
-            iconColor: "lightcoral",
-            background: "rgb(99 102 241)",
-          });
-        } else if (err.location == null) {
-          Swal.fire({
-            title: "Successful!",
-            text: "The sign up was completly successful",
-            icon: "success",
-            showConfirmButton: false,
-            position: "bottom",
-            toast: true,
-            timer: 5000,
-            timerProgressBar: true,
-            didOpen: (toast) => {
-              toast.onmouseenter = Swal.stopTimer;
-              toast.onmouseleave = Swal.resumeTimer;
-            },
-            color: "white",
-            iconColor: "springgreen",
-            background: "rgb(99 102 241)",
-          });
-        }
-      } else {
-        console.log(`Error: ${xhr.status}`);
+  const request_SignUp = new XMLHttpRequest();
+  const request_SignIn = new XMLHttpRequest();
+  request_SignUp.open(
+    "GET",
+    "http://localhost:4321/api/Student_SignUp_Form_error.json"
+  );
+  request_SignUp.setRequestHeader("Content-Type", "application/json");
+  request_SignUp.send();
+  request_SignUp.responseType = "json";
+  request_SignUp.onload = () => {
+    if (request_SignUp.readyState == 4 && request_SignUp.status == 200) {
+      const err = request_SignUp.response;
+      if (err.location == "NO_ERROR") {
+        Swal.fire({
+          title: "Successful!",
+          text: "The sign up was completly successful",
+          icon: "success",
+          showConfirmButton: false,
+          position: "bottom",
+          toast: true,
+          timer: 5000,
+          timerProgressBar: true,
+          didOpen: (toast) => {
+            toast.onmouseenter = Swal.stopTimer;
+            toast.onmouseleave = Swal.resumeTimer;
+          },
+          color: "white",
+          iconColor: "springgreen",
+          background: "rgb(99 102 241)",
+        });
+      } else if (err.location == "Passwords_not_match") {
+        Swal.fire({
+          title: "Error!",
+          text: "The written passwords doesn't match",
+          icon: "error",
+          showConfirmButton: false,
+          position: "bottom",
+          toast: true,
+          timer: 5000,
+          timerProgressBar: true,
+          didOpen: (toast) => {
+            toast.onmouseenter = Swal.stopTimer;
+            toast.onmouseleave = Swal.resumeTimer;
+          },
+          color: "white",
+          iconColor: "lightcoral",
+          background: "rgb(99 102 241)",
+          grow: "row",
+        });
+      } else if (err.location == "Not_DNI_correct") {
+        Swal.fire({
+          title: "Error!",
+          text: "The DNI entered is not correct",
+          icon: "error",
+          showConfirmButton: false,
+          position: "bottom",
+          toast: true,
+          timer: 5000,
+          timerProgressBar: true,
+          didOpen: (toast) => {
+            toast.onmouseenter = Swal.stopTimer;
+            toast.onmouseleave = Swal.resumeTimer;
+          },
+          color: "white",
+          iconColor: "lightcoral",
+          background: "rgb(99 102 241)",
+          grow: "row",
+        });
+      } else if (err.location != null) {
+        Swal.fire({
+          title: "Error!",
+          text: "There is already a user with that " + err.location,
+          icon: "error",
+          showConfirmButton: false,
+          position: "bottom",
+          toast: true,
+          timer: 5000,
+          timerProgressBar: true,
+          didOpen: (toast) => {
+            toast.onmouseenter = Swal.stopTimer;
+            toast.onmouseleave = Swal.resumeTimer;
+          },
+          color: "white",
+          iconColor: "lightcoral",
+          background: "rgb(99 102 241)",
+          grow: "row",
+        });
       }
-    };
-  }
+    } else {
+      console.log(`Error: ${request_SignUp.status}`);
+    }
+  };
+
+  request_SignIn.open(
+    "GET",
+    "http://localhost:4321/api/Student_SignIn_Form_error.json"
+  );
+  request_SignIn.setRequestHeader("Content-Type", "application/json");
+  request_SignIn.send();
+  request_SignIn.responseType = "json";
+  request_SignIn.onload = () => {
+    if (request_SignIn.readyState == 4 && request_SignIn.status == 200) {
+      const err = request_SignIn.response;
+      if (err.location == "NO_ERROR") {
+        Swal.fire({
+          title: "Successful!",
+          text: "The sign up was completly successful",
+          icon: "success",
+          showConfirmButton: false,
+          position: "bottom",
+          timer: 3000,
+          timerProgressBar: true,
+          color: "white",
+          iconColor: "springgreen",
+          allowOutsideClick: false,
+          background: "rgb(99 102 241)",
+        });
+        setTimeout(function () {
+          window.location.replace("/home");
+        }, 3000);
+      } else if (err.location == "Email") {
+        Swal.fire({
+          title: "Error!",
+          text: "There is no user with that email",
+          icon: "error",
+          showConfirmButton: false,
+          position: "bottom",
+          toast: true,
+          timer: 5000,
+          timerProgressBar: true,
+          didOpen: (toast) => {
+            toast.onmouseenter = Swal.stopTimer;
+            toast.onmouseleave = Swal.resumeTimer;
+          },
+          color: "white",
+          iconColor: "lightcoral",
+          background: "rgb(99 102 241)",
+          grow: "row",
+        });
+      } else if (err.location == "Password") {
+        Swal.fire({
+          title: "Error!",
+          text: "Incorrect password",
+          icon: "error",
+          showConfirmButton: false,
+          position: "bottom",
+          toast: true,
+          timer: 5000,
+          timerProgressBar: true,
+          didOpen: (toast) => {
+            toast.onmouseenter = Swal.stopTimer;
+            toast.onmouseleave = Swal.resumeTimer;
+          },
+          color: "white",
+          iconColor: "lightcoral",
+          background: "rgb(99 102 241)",
+          grow: "row",
+        });
+      }
+    } else {
+      console.log(`Error: ${request_SignUp.status}`);
+    }
+  };
+  //   }
+  // });
 </script>
 
 <style>

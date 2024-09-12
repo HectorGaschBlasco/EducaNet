@@ -8,28 +8,26 @@ const { title, items, visible } = Astro.props;
     <div class="relative flex col-span-2 flex-col bg-clip-border dark:bg-gray-800 h-[calc(100vh-6.25rem)] w-full  p-4 border-r-2 border-b-2 border-l-2 border-slate-500 ">
       <div class="mb-2 p-4">
         <h5 class="block antialiased tracking-normal font-sans text-xl font-semibold leading-snug text-gradient">
-          {title}
+          {title[0].description}
         </h5>
       </div>
 
       <div class="flex flex-col gap-1 min-w-[240px] p-2 font-sans text-base font-normal text-gray-200">
-        {items.map((item, index) => (
-          <TheroryText theory={item.description} />
-        ))}
+        <TheroryText theory={items[0].content} />
+        <input id="fileInput" type="file" />
+        <pre id="fileContent" />
       </div>
     </div>
   ) : (
     <div class="relative hidden col-span-2 flex-col bg-clip-border dark:bg-gray-800 h-[calc(100vh-6.25rem)] w-full p-4 border-r-2 border-b-2 border-l-2 border-slate-500 ">
       <div class="mb-2 p-4">
         <h5 class="block antialiased tracking-normal font-sans text-xl font-semibold leading-snug text-gradient">
-          {title}
+          {/* {title[0].description} */}
         </h5>
       </div>
 
       <div class="flex flex-col gap-1 min-w-[240px] p-2 font-sans text-base font-normal text-gray-200">
-        {items.map((item, index) => (
-          <TheroryText theory={item.description} />
-        ))}
+        {/* <TheroryText theory={items[0].content } /> */}
       </div>
     </div>
   )
@@ -53,3 +51,28 @@ const { title, items, visible } = Astro.props;
     background-size: 85%;
   }
 </style>
+
+<script type="text/javascript">
+  document
+    .getElementById("fileInput")
+    .addEventListener("change", function (event) {
+      const file = event.target.files[0]; // Asegúrate de obtener el archivo desde el input
+
+      if (file) {
+        const reader = new FileReader();
+
+        reader.onload = function (e) {
+          const content = e.target.result; // Contenido del archivo
+          document.getElementById("fileContent").textContent = content;
+        };
+
+        reader.onerror = function (e) {
+          console.error("Error leyendo el archivo:", e);
+        };
+
+        reader.readAsText(file); // Asegúrate de que `file` sea un objeto de tipo File o Blob
+      } else {
+        console.error("No se seleccionó ningún archivo.");
+      }
+    });
+</script>
